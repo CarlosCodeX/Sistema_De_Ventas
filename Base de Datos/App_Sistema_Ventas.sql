@@ -262,12 +262,11 @@ END
 GO
 
 --Venta
-
+GO
 CREATE TYPE TVP_DetalleVenta AS TABLE (
     IdProducto INT,
     Cantidad INT
 );
-
 GO
 CREATE PROC sp_InsertarVenta_Multiple
     @IdCliente INT,
@@ -281,13 +280,35 @@ BEGIN
     BEGIN TRY
         BEGIN TRAN;
 
+        -- Validar que la venta tenga productos
+        IF NOT EXISTS (SELECT 1 FROM @Detalle)
+        BEGIN
+            RAISERROR('La venta no contiene productos', 16, 1);
+            ROLLBACK;
+            RETURN;
+        END
+
+        -- Validar stock suficiente para TODOS los productos
+        IF EXISTS (
+            SELECT 1
+            FROM @Detalle d
+            INNER JOIN Producto p ON p.IdProducto = d.IdProducto
+            WHERE p.Activo = 0
+               OR p.Stock < d.Cantidad
+        )
+        BEGIN
+            RAISERROR('Stock insuficiente o producto inactivo', 16, 1);
+            ROLLBACK;
+            RETURN;
+        END
+
         -- Crear la venta
         INSERT INTO Venta (IdCliente, Total)
         VALUES (@IdCliente, 0);
 
         SET @IdVenta = SCOPE_IDENTITY();
 
-        -- Insertar detalles
+        -- Insertar detalles (N productos)
         INSERT INTO DetalleVenta (IdVenta, IdProducto, Cantidad, PrecioUnitario)
         SELECT
             @IdVenta,
@@ -295,17 +316,15 @@ BEGIN
             d.Cantidad,
             p.Precio
         FROM @Detalle d
-        INNER JOIN Producto p ON p.IdProducto = d.IdProducto
-        WHERE p.Activo = 1
-          AND p.Stock >= d.Cantidad;
+        INNER JOIN Producto p ON p.IdProducto = d.IdProducto;
 
-        -- Actualizar stock
+        -- Descontar stock
         UPDATE p
         SET p.Stock = p.Stock - d.Cantidad
         FROM Producto p
         INNER JOIN @Detalle d ON p.IdProducto = d.IdProducto;
 
-        -- Calcular total
+        -- Calcular total de la venta
         UPDATE Venta
         SET Total = (
             SELECT SUM(SubTotal)
@@ -449,4 +468,84 @@ END
 GO
 
 --Usuario
+GO
+CREATE PROC sp_InsertarUsuario 
+@NombreUsuario VARCHAR(50),
+@Clave VARCHAR(255),
+@IDRol INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO Usuario (Usuario, Clave, IdRol, Activo)
+    VALUES (@NombreUsuario, @Clave, @IDRol, 1)
+END
+
+GO
+CREATE PROC sp_ActualizarUsuario
+@IDUsuario INT,
+@NombreUsuario VARCHAR(50),
+@Clave VARCHAR(255),
+@IDRol INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Usuario
+    SET Usuario = @NombreUsuario,
+        IdRol = @IDRol
+        WHERE IdUsuario = @IDUsuario
+END
+
+GO
+CREATE PROC sp_DesactivarUsuario 
+@IDUsuario INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    Update Usuario
+    SET Activo = 0
+    WHERE IdUsuario = @IDUsuario
+END
+
+GO
+CREATE PROC sp_ReactivarUsuario
+@IDUsuario INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Usuario
+    SET Activo = 1
+    WHERE IdUsuario = @IDUsuario
+END
+
+GO
+CREATE PROC sp_ListarUsuarios
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT 
+        u.IdUsuario,
+        u.Usuario,
+        r.NombreRol,
+        u.Activo
+    FROM Usuario u
+    INNER JOIN Rol r ON u.IdRol = r.IdRol
+END
+
+GO
+CREATE PROC sp_LoginUsuario
+@NombreUsuario VARCHAR(50),
+@Clave VARCHAR(255)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT 
+    u.Usuario,
+    r.NombreRol,
+    u.Activo
+    FROM Usuario u
+    INNER JOIN Rol r ON u.IdRol = r.IdRol
+    WHERE u.Usuario = @NombreUsuario
+    AND u.Clave = @Clave AND Activo = 1
+END
+GO
 
