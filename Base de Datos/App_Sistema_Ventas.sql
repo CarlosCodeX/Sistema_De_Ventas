@@ -31,7 +31,7 @@ CREATE TABLE Categoria (
     IdCategoria INT IDENTITY PRIMARY KEY,
     Nombre NVARCHAR(50) NOT NULL,
     Descripcion NVARCHAR(150),
-    Activo BIT DEFAULT 1
+    Activo BIT DEFAULT 1 NOT NULL
 );
 
 CREATE TABLE Venta (
@@ -111,18 +111,6 @@ BEGIN
     Email = @Email
     WHERE IdCliente = @IDCliente
     AND Activo = 1
-END
-
-GO
-CREATE PROC sp_EliminarCliente
-    @IDCliente INT
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    UPDATE Cliente
-    SET Activo = 0
-    WHERE IdCliente = @IDCliente;
 END
 
 GO
@@ -549,3 +537,67 @@ BEGIN
 END
 GO
 
+--Categoria
+GO
+CREATE PROC sp_AgregarCategoria
+@Nombre VARCHAR(50),
+@Descripcion VARCHAR(255)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO Categoria(Nombre, Descripcion, Activo)
+    VALUES(@Nombre, @Descripcion, 1)
+END
+GO
+
+GO
+CREATE PROC sp_ActualizarCategoria
+@IDCategoria INT,
+@Nombre VARCHAR(50),
+@Descripcion VARCHAR(255)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Categoria
+    SET Nombre = @Nombre,
+        Descripcion = @Descripcion
+        WHERE IdCategoria = @IDCategoria
+END
+GO
+
+GO
+CREATE PROC sp_DesactivarCategoria
+@IDCategoria INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    Update Categoria
+    SET Activo = 0
+    WHERE IdCategoria = @IDCategoria
+END
+
+GO
+CREATE PROC sp_ReactivarCategoria
+@IDCategoria INT
+AS 
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Categoria
+    SET Activo = 1
+    WHERE IdCategoria = @IDCategoria
+END
+
+GO
+CREATE PROC sp_ListarCategoria
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT 
+    IdCategoria, 
+    Nombre,
+    Descripcion,
+    Activo
+    FROM Categoria
+    WHERE Activo = 1
+END
+GO

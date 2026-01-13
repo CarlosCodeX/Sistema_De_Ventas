@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CapaEntidad;
 
 namespace CapaDatos
 {
-    public class Class1
+    public class ClienteDAL
     {
+
+        public int agregar (Cliente cliente)
+        {
+
+        }
+
     }
 }

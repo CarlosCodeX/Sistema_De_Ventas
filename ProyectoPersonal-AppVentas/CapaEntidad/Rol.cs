@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CapaEntidad
 {
-    internal class Rol
+    public class Rol
     {
+
+        public int IdRol { get; set; }
+        public String NombreRol {get; set;}
+
     }
 }
