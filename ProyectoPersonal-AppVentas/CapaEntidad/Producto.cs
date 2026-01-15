@@ -16,9 +16,23 @@ namespace CapaEntidad
         public String Nombre { get; set; }
         public Categoria categoria { get; set; } 
         public int Stock { get; set; }
-        public double Precio { get; set; }
+        public decimal Precio { get; set; }
         public DateTime FechaRegistro { get; set; }
         public bool Activo { get; set; }
 
+        public Producto(int idProducto, string nombre, Categoria categoria, int stock, decimal precio, DateTime fechaRegistro, bool activo)
+        {
+            IdProducto = idProducto;
+            Nombre = nombre;
+            this.categoria = categoria;
+            Stock = stock;
+            Precio = precio;
+            FechaRegistro = fechaRegistro;
+            Activo = activo;
+        }
+
+        public Producto()
+        {
+        }
     }
 }

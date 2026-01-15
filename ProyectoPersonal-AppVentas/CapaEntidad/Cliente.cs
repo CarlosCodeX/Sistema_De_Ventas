@@ -18,5 +18,19 @@ namespace CapaEntidad
         public DateTime FechaRegistro { get; set; }
         public bool Activo { get; set; }
 
+        public Cliente(int idCliente, string nombre, string documento, string telefono, string email, DateTime fechaRegistro, bool activo)
+        {
+            IdCliente = idCliente;
+            Nombre = nombre;
+            Documento = documento;
+            Telefono = telefono;
+            Email = email;
+            FechaRegistro = fechaRegistro;
+            Activo = activo;
+        }
+
+        public Cliente()
+        {
+        }
     }
 }
