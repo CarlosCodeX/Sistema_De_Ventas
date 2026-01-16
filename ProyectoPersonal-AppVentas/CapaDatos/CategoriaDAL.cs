@@ -64,7 +64,7 @@ namespace CapaDatos
             return f;
         }
 
-        public int Desactivar (Categoria categoria)
+        public int Desactivar (int id)
         {
             int f = 0;
             using (SqlConnection cn = new SqlConnection(ConexionBD.cn))
@@ -75,7 +75,7 @@ namespace CapaDatos
                     cmd.Connection = cn;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.CommandText = "sp_DesactivarCategoria";
-                    cmd.Parameters.AddWithValue("@IDCategoria", categoria.IdCategoria);
+                    cmd.Parameters.AddWithValue("@IDCategoria", id);
                     cn.Open();
                     f = cmd.ExecuteNonQuery();
                     cn.Close();
@@ -87,7 +87,7 @@ namespace CapaDatos
             }
             return f;
         }
-        public int Reactivar(Categoria categoria)
+        public int Reactivar(int id)
         {
             int f = 0;
             using (SqlConnection cn = new SqlConnection(ConexionBD.cn))
@@ -98,7 +98,7 @@ namespace CapaDatos
                     cmd.Connection = cn;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.CommandText = "sp_ReactivarCategoria";
-                    cmd.Parameters.AddWithValue("@IDCategoria", categoria.IdCategoria);
+                    cmd.Parameters.AddWithValue("@IDCategoria", id);
                     cn.Open();
                     f = cmd.ExecuteNonQuery();
                     cn.Close();

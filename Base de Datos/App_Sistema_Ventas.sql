@@ -234,7 +234,14 @@ CREATE PROC sp_ListarProducto_Todos
 AS
 BEGIN
     SET NOCOUNT ON;
-    SELECT *
+    SELECT 
+    IdProducto,     --0
+    Nombre,         --1
+    IdCategoria,    --2
+    Stock,          --3
+    Precio,         --4
+    FechaRegistro,  --5
+    Activo          --6
     FROM Producto
 END
 

@@ -65,7 +65,7 @@ namespace CapaDatos
             return f;
         }
 
-        public int eliminar(int id)
+        public int desactivar (int id)
         {
             int f = 0;
             using (SqlConnection cn = new SqlConnection(ConexionBD.cn))
@@ -88,40 +88,164 @@ namespace CapaDatos
             return f;
         }
 
+        public int reactivar(int id)
+        {
+            int f = 0;
+            using (SqlConnection cn = new SqlConnection(ConexionBD.cn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = cn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "sp_ReactivarProducto";
+                    cmd.Parameters.AddWithValue("@IDProducto", id);
+                    cn.Open();
+                    f = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return f;
+        }
+
         public List<Producto> listar()
         {
             List<Producto> lista = new List<Producto>();
             using (SqlConnection cn = new SqlConnection(ConexionBD.cn))
             {
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = cn;
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "sp_ListarProducto";
-                cn.Open();
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                try
                 {
-                    while (reader.Read())
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = cn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "sp_ListarProducto";
+                    cn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        Categoria categoria = new Categoria()
+                        while (reader.Read())
                         {
-                            IdCategoria= int.Parse(reader[2].ToString()),
-                        };
+                            Categoria categoria = new Categoria()
+                            {
+                                IdCategoria = Convert.ToInt32(reader["IdCategoria"])
+                            };
 
-                        DateTime FechaRegistro = reader.IsDBNull(5) ? DateTime.MinValue : Convert.ToDateTime(reader[5]);
+                            DateTime FechaRegistro = reader.IsDBNull(5) ? DateTime.MinValue : Convert.ToDateTime(reader[5]);
 
-                        Producto producto = new Producto(
-                            Convert.ToInt32(reader["IdProducto"].ToString()),   //0
-                            reader["Nombre"].ToString(),                        //1
-                            categoria,                                          //2
-                            Convert.ToInt32(reader["Stock"].ToString()),        //3
-                            Convert.ToDecimal(reader["Precio"].ToString()),     //4
-                            FechaRegistro,                                      //5
-                            Convert.ToBoolean(reader["Activo"])                 //6g
-                            );
+                            Producto p = new Producto(
+                                Convert.ToInt32(reader["IdProducto"].ToString()),   //0
+                                reader["Nombre"].ToString(),                        //1
+                                categoria,                                          //2
+                                Convert.ToInt32(reader["Stock"].ToString()),        //3
+                                Convert.ToDecimal(reader["Precio"].ToString()),     //4
+                                FechaRegistro,                                      //5
+                                Convert.ToBoolean(reader["Activo"])                 //6
+                                );
+                            lista.Add(p);
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
                     
             }
+            return lista;
         }
-            
+
+        public List<Producto> buscar(string nombre)
+        {
+            List<Producto> lista = new List<Producto>();
+            using (SqlConnection cn = new SqlConnection(ConexionBD.cn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = cn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "sp_BuscarProducto";
+                    cmd.Parameters.AddWithValue("@Nombre", nombre);
+                    cn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Categoria categoria = new Categoria()
+                            {
+                                IdCategoria = Convert.ToInt32(reader["IdCategoria"])
+                            };
+
+                            DateTime FechaRegistro = reader.IsDBNull(5) ? DateTime.MinValue : Convert.ToDateTime(reader[5]);
+
+                            Producto p = new Producto(
+                                Convert.ToInt32(reader["IdProducto"].ToString()),   //0
+                                reader["Nombre"].ToString(),                        //1
+                                categoria,                                          //2
+                                Convert.ToInt32(reader["Stock"].ToString()),        //3
+                                Convert.ToDecimal(reader["Precio"].ToString()),     //4
+                                FechaRegistro,                                      //5
+                                Convert.ToBoolean(reader["Activo"])                 //6
+                                );
+                            lista.Add(p);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+
+            }
+            return lista;
+        }
+
+        public List<Producto> listarAdmin()
+        {
+            List<Producto> lista = new List<Producto>();
+            using (SqlConnection cn = new SqlConnection(ConexionBD.cn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = cn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "sp_ListarProducto_Todos";
+                    cn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Categoria categoria = new Categoria()
+                            {
+                                IdCategoria = Convert.ToInt32(reader["IdCategoria"])
+                            };
+
+                            DateTime FechaRegistro = reader.IsDBNull(5) ? DateTime.MinValue : Convert.ToDateTime(reader[5]);
+
+                            Producto p = new Producto(
+                                Convert.ToInt32(reader["IdProducto"].ToString()),   //0
+                                reader["Nombre"].ToString(),                        //1
+                                categoria,                                          //2
+                                Convert.ToInt32(reader["Stock"].ToString()),        //3
+                                Convert.ToDecimal(reader["Precio"].ToString()),     //4
+                                FechaRegistro,                                      //5
+                                Convert.ToBoolean(reader["Activo"])                 //6
+                                );
+                            lista.Add(p);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+
+            }
+            return lista;
+        }
+
     }
 }
