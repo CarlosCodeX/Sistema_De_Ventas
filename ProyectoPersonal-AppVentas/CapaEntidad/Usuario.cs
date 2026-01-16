@@ -18,5 +18,16 @@ namespace CapaEntidad
         public Rol rol { get; set; }
         public bool Activo { get; set; }
 
+        public Usuario(int idUsuario, string nombreUsuario, Rol rol, bool activo)
+        {
+            IdUsuario = idUsuario;
+            NombreUsuario = nombreUsuario;
+            this.rol = rol;
+            Activo = activo;
+        }
+
+        public Usuario()
+        {
+        }
     }
 }

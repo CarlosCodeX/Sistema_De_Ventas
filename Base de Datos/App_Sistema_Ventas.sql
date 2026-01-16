@@ -397,24 +397,17 @@ BEGIN
 END
 
 GO
-CREATE PROC sp_ListarVentas
+CREATE PROC sp_ListarVentas --Listar de ADMINISTRADOR -- Muestra TODAS las VENTAS
 AS
 BEGIN
     SET NOCOUNT ON;
     SELECT 
-        v.IdVenta,
-        c.Nombre AS Cliente,
-        p.Nombre AS Producto,
-        d.Cantidad,
-        d.PrecioUnitario,
-        d.SubTotal,
-        v.Total,
-        v.FechaVenta
+        IdVenta,
+        c.Nombre AS Cliente, 
+        FechaVenta,
+        Total
     FROM Venta v
-    INNER JOIN Cliente c ON v.IdCliente = c.IdCliente
-    INNER JOIN DetalleVenta d ON v.IdVenta = d.IdVenta
-    INNER JOIN Producto p ON d.IdProducto = p.IdProducto
-    ORDER BY v.FechaVenta DESC
+    INNER JOIN Cliente c ON c.IdCliente = v.IdCliente
 END
 
 GO
@@ -424,19 +417,13 @@ AS
 BEGIN
     SET NOCOUNT ON;
     SELECT 
-        v.IdVenta,
+        IdVenta,
         c.Nombre AS Cliente,
-        p.Nombre AS Producto,
-        d.Cantidad,
-        d.PrecioUnitario,
-        d.SubTotal,
-        v.Total,
-        v.FechaVenta
+        FechaVenta,
+        Total
     FROM Venta v
-    INNER JOIN Cliente c ON v.IdCliente = c.IdCliente
-    INNER JOIN DetalleVenta d ON v.IdVenta = d.IdVenta
-    INNER JOIN Producto p ON d.IdProducto = p.IdProducto
-    WHERE c.Nombre LIKE '%'+ @NombreCliente +'%' AND c.Activo = 1
+    INNER JOIN Cliente c ON c.IdCliente = v.IdCliente
+    WHERE c.Nombre LIKE '%'+ @NombreCliente +'%' 
 END
 
 GO
@@ -446,14 +433,14 @@ AS
 BEGIN
     SET NOCOUNT ON;
     SELECT 
-        v.IdVenta,
+        v.IdVenta AS IdVenta,
         c.Nombre AS Cliente,
         p.Nombre AS Producto,
-        d.Cantidad,
-        d.PrecioUnitario,
-        d.SubTotal,
-        v.Total,
-        v.FechaVenta
+        d.Cantidad AS Cantidad,
+        d.PrecioUnitario AS PrecioUnitario,
+        d.SubTotal AS SubTotal,
+        v.Total AS Total,
+        v.FechaVenta AS FechaVenta
     FROM Venta v
     INNER JOIN Cliente c ON v.IdCliente = c.IdCliente
     INNER JOIN DetalleVenta d ON v.IdVenta = d.IdVenta
@@ -479,7 +466,6 @@ GO
 CREATE PROC sp_ActualizarUsuario
 @IDUsuario INT,
 @NombreUsuario VARCHAR(50),
-@Clave VARCHAR(255),
 @IDRol INT
 AS
 BEGIN
@@ -518,10 +504,10 @@ AS
 BEGIN
     SET NOCOUNT ON;
     SELECT 
-        u.IdUsuario,
-        u.Usuario,
-        r.NombreRol,
-        u.Activo
+        u.IdUsuario AS IdUsuario,
+        u.Usuario AS Usuario,
+        r.NombreRol AS NombreRol,
+        u.Activo AS Activo
     FROM Usuario u
     INNER JOIN Rol r ON u.IdRol = r.IdRol
 END
