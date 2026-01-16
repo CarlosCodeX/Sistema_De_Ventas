@@ -15,8 +15,19 @@ namespace CapaEntidad
         public Venta venta { get; set; }
         public Producto producto { get; set; }
         public int Cantidad { get; set; }
-        public double PrecioUnitario { get; set; }
-        public double SubTotal { get; set; }
+        public decimal PrecioUnitario { get; set; }
+        public decimal SubTotal { get; set; }
 
+        public DetalleVenta(Producto producto, int cantidad, decimal precioUnitario, decimal subTotal)
+        {
+            this.producto = producto;
+            Cantidad = cantidad;
+            PrecioUnitario = precioUnitario;
+            SubTotal = subTotal;
+        }
+
+        public DetalleVenta()
+        {
+        }
     }
 }
