@@ -520,6 +520,7 @@ AS
 BEGIN
     SET NOCOUNT ON;
     SELECT 
+    u.IdUsuario,
     u.Usuario,
     r.NombreRol,
     u.Activo

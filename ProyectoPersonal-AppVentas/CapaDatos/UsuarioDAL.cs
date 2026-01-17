@@ -134,7 +134,7 @@ namespace CapaDatos
                                 Convert.ToInt32(reader["IdUsuario"].ToString()),
                                 reader["Usuario"].ToString(),
                                 rol,
-                                Convert.ToBoolean(reader["Activo"].ToString())
+                                Convert.ToBoolean(reader["Activo"])
                                 );
 
                             lista.Add(usuario);
@@ -168,19 +168,22 @@ namespace CapaDatos
                     {
                         usuario = new Usuario();
 
+                        usuario.IdUsuario = Convert.ToInt32(dr["IdUsuario"].ToString());
                         usuario.NombreUsuario = dr["Usuario"].ToString();
-                        usuario.Activo = dr["Activo"].ToString();
-                        usuariointerno.correo = dr["Correo"].ToString();
+                        usuario.Activo = Convert.ToBoolean(dr["Activo"]);
 
-                        usuariointerno.rol = new Rol()
+                        usuario.rol = new Rol()
                         {
-                            IDRol = (int)dr["IDRol"],
-                            nombreRol = dr["NombreRol"].ToString()
+                            NombreRol = dr["NombreRol"].ToString()
                         };
                     }
-
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
                 }
             }
+            return usuario;
         }
 
     }
