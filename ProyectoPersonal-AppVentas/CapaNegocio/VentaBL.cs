@@ -3,10 +3,75 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CapaDatos;
+using CapaEntidad;
 
 namespace CapaNegocio
 {
-    internal class VentaBL
+    public class VentaBL
     {
+
+        VentaDAL ventaDAL = new VentaDAL();
+
+        public int RegistrarVenta(int idCliente, List<DetalleVenta> detalles)
+        {
+            if (idCliente <= 0)
+                throw new Exception("Cliente inválido");
+
+            if (detalles == null || detalles.Count == 0)
+                throw new Exception("La venta debe tener al menos un producto");
+
+            foreach (var d in detalles)
+            {
+                if (d.producto == null || d.producto.IdProducto <= 0)
+                    throw new Exception("Producto inválido en el detalle");
+
+                if (d.Cantidad <= 0)
+                    throw new Exception("Cantidad inválida");
+            }
+
+            return ventaDAL.RegistrarVenta(idCliente, detalles);
+        }
+
+        public List<Venta> ListarVentasHoy()
+        {
+            return ventaDAL.listarHoy();
+        }
+
+        public List<Venta> ListarVentasMes()
+        {
+            return ventaDAL.listarMes();
+        }
+
+        public List<Venta> ListarVentasAdmin()
+        {
+            return ventaDAL.listarAdmin();
+        }
+
+        public decimal TotalVentasHoy()
+        {
+            return ventaDAL.TotalVentasHoy();
+        }
+
+        public decimal TotalVentasMes()
+        {
+            return ventaDAL.TotalVentasMes();
+        }
+
+        public List<Venta> BuscarVentasAdmin(string nombreCliente)
+        {
+            if (string.IsNullOrWhiteSpace(nombreCliente))
+                return ventaDAL.listarAdmin();
+
+            return ventaDAL.BuscarAdmin(nombreCliente);
+        }
+        public Venta ObtenerDetalleVenta(int idVenta)
+        {
+            if (idVenta <= 0)
+                throw new Exception("ID de venta inválido");
+
+            return ventaDAL.detalles(idVenta);
+        }
+
     }
 }

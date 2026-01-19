@@ -28,7 +28,7 @@ namespace CapaNegocio
         }
 
 
-        public int CambiarEstado(Categoria categoria)
+        public int CambiarEstadoCategoria(Categoria categoria)
         {
             if (categoria == null)
                 throw new Exception("Categoría inválida");

@@ -27,7 +27,7 @@ namespace CapaNegocio
                 return productoDAL.actualizar(producto);
         }
 
-        public int CambiarEstado(Producto producto)
+        public int CambiarEstadoProducto(Producto producto)
         {
             if (producto == null)
                 throw new Exception("Categoría inválida");
