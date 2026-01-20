@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using CapaEntidad;
 using System.Data;
 using System.Data.SqlClient;
+using CapaEntidad.DTO;
 
 namespace CapaDatos
 {
     public class VentaDAL
     {
 
-        public int RegistrarVenta(int idCliente, List<DetalleVenta> detalles)
+        public int RegistrarVenta(int idCliente, List<DetalleVentaDTO> detalles)
         {
             int resultado = 0;
 
@@ -32,8 +33,9 @@ namespace CapaDatos
 
                     foreach (var d in detalles)
                     {
-                        dt.Rows.Add(d.producto.IdProducto, d.Cantidad);
+                        dt.Rows.Add(d.IdProducto, d.Cantidad);
                     }
+
 
                     SqlParameter tvp = cmd.Parameters.AddWithValue("@Detalle", dt);
                     tvp.SqlDbType = SqlDbType.Structured;

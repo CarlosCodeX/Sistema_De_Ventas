@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CapaDatos;
 using CapaEntidad;
+using CapaEntidad.DTO;
 
 namespace CapaNegocio
 {
@@ -13,22 +14,13 @@ namespace CapaNegocio
 
         VentaDAL ventaDAL = new VentaDAL();
 
-        public int RegistrarVenta(int idCliente, List<DetalleVenta> detalles)
+        public int RegistrarVenta(int idCliente, List<DetalleVentaDTO> detalles)
         {
             if (idCliente <= 0)
                 throw new Exception("Cliente inválido");
 
             if (detalles == null || detalles.Count == 0)
-                throw new Exception("La venta debe tener al menos un producto");
-
-            foreach (var d in detalles)
-            {
-                if (d.producto == null || d.producto.IdProducto <= 0)
-                    throw new Exception("Producto inválido en el detalle");
-
-                if (d.Cantidad <= 0)
-                    throw new Exception("Cantidad inválida");
-            }
+                throw new Exception("La venta debe tener productos");
 
             return ventaDAL.RegistrarVenta(idCliente, detalles);
         }
