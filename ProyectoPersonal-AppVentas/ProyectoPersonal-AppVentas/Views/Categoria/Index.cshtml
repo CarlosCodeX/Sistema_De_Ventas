@@ -1,0 +1,68 @@
+﻿
+@model List<CapaEntidad.Categoria>
+
+<link href="~/Content/IndexCategoria.css" rel="stylesheet" />
+
+<div class="grid-categoria">
+    <nav class="menu">
+        <p>Menú</p>
+        <a href="">Inicio</a>
+        <a href="">Mis ventas</a>
+        <a href="">Mis Clientes</a>
+        <a href="">Mis Categorias</a>
+        <a href="">Mis productos</a>
+    </nav>
+    <div>
+        <h2 class="titulo">Tus Categorías</h2>
+
+        <button class="btn-Agregar" onclick="abrirModal()">Nueva Categoría</button>
+
+        <table border="1" class="tabla-categoria">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model)
+                {
+                    <tr>
+                        <td>@c.IdCategoria</td>
+                        <td>@c.Nombre</td>
+                        <td>@c.Descripcion</td>
+                        <td>@(c.Activo ? "Activo" : "Inactivo")</td>
+                        <td>
+                            <button onclick="editar(@c.IdCategoria, @c.Nombre, @c.Descripcion)">Editar</button>
+                            <button onclick="cambiarEstado(@c.IdCategoria, @(c.Activo.ToString().ToLower()))">
+                                Estado
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div id="modalCategoria" class="modal">
+            <div class="modal-content">
+                <h3>Nueva Categoría</h3>
+
+                <input type="hidden" id="idCategoria" value="0" />
+
+                <input type="text" id="nombre" placeholder="Nombre" />
+                <br /><br />
+                <input type="text" id="descripcion" style="height: 200px" placeholder="Descripción" />
+                <br /><br />
+
+                <button onclick="guardar()">Guardar</button>
+                <button onclick="cerrarModal()">Cancelar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="~/Scripts/categoria.js"></script>
+

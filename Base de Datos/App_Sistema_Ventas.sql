@@ -592,6 +592,7 @@ BEGIN
     Descripcion,
     Activo
     FROM Categoria
-    WHERE Activo = 1
 END
 GO
+
+select * from Categoria
