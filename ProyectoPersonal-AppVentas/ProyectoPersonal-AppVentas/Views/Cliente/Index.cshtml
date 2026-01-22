@@ -1,7 +1,82 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@model List<CapaEntidad.Cliente>
+
+<link href="~/Content/IndexCliente.css" rel="stylesheet" />
+
+<div class="grid-cliente">
+    <nav class="menu">
+        <p>Menú</p>
+        <a href="">Inicio</a>
+        <a href="">Mis ventas</a>
+        <a href="">Mis Clientes</a>
+        <a href="">Mis Categorias</a>
+        <a href="">Mis productos</a>
+    </nav>
+    <div>
+        <h2 class="titulo">Tus Clientes</h2>
+
+        <button class="btn-Agregar" onclick="abrirModal()">Nuevo Cliente</button>
+
+        <table border="1" class="tabla-cliente">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Documento</th>
+                    <th>Telefono</th>
+                    <th>Email</th>
+                    <th>FechaRegistro</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cliente in Model)
+                {
+                    <tr>
+                        <td>@cliente.IdCliente</td>
+                        <td>@cliente.Nombre</td>
+                        <td>@cliente.Documento</td>
+                        <td>@cliente.Telefono</td>
+                        <td>@cliente.Email</td>
+                        <td>@cliente.FechaRegistro</td>
+                        <td>@(cliente.Activo ? "Activo" : "Inactivo")</td>
+                        <td>
+                            <button onclick="editar(@cliente.IdCliente, '@cliente.Nombre', '@cliente.Documento',
+                                                    '@cliente.Telefono', '@cliente.Email')">
+                                Editar
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div id="modalCliente" class="modal">
+            <div class="modal-content">
+                <h3>Actualizar Cliente</h3>
+
+                <input type="hidden" id="idCliente" value="0" />
+
+                <input type="text" id="Nombre" placeholder="Nombre" />
+                <br /><br />
+
+                <input type="text" id="documento" placeholder="Documento" />
+                <br /><br />
+
+                <input type="text" id="telefono" placeholder="Telefono" />
+                <br /><br />
+
+                <input type="text" id="email" placeholder="Email" />
+                <br /><br />
+
+                <button onclick="guardar()">Guardar</button>
+                <button onclick="cerrarModal()">Cancelar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts {
+    <script src="@Url.Content("~/Scripts/cliente.js")"></script>
 }
 
-<h2>Index</h2>
 

@@ -69,29 +69,5 @@ function editar(id, nombre, descripcion) {
     document.getElementById("modalCategoria").style.display = "block";
 }
 
-function cambiarEstado(id, activo) {
 
-    if (!confirm("¿Seguro de cambiar el estado?"))
-        return;
-
-    $.ajax({
-        url: '/Categoria/CambiarEstado',
-        type: 'POST',
-        data: {
-            id: id,
-            activo: activo
-        },
-        success: function (r) {
-
-            if (r.resultado) {
-                location.reload();
-            } else {
-                alert(r.mensaje);
-            }
-        },
-        error: function () {
-            alert("Error al cambiar estado");
-        }
-    });
-}
 

@@ -127,22 +127,29 @@ namespace CapaDatos
                     {
                         while (reader.Read())
                         {
+                            
                             Categoria categoria = new Categoria()
                             {
-                                IdCategoria = Convert.ToInt32(reader["IdCategoria"])
+                                IdCategoria = Convert.ToInt32(reader["IdCategoria"]),
+                                Nombre = reader["NombreCategoria"].ToString() 
                             };
 
-                            DateTime FechaRegistro = reader.IsDBNull(5) ? DateTime.MinValue : Convert.ToDateTime(reader[5]);
+                            
+                            DateTime FechaRegistro = reader["FechaRegistro"] == DBNull.Value
+                                ? DateTime.MinValue
+                                : Convert.ToDateTime(reader["FechaRegistro"]);
 
+                            
                             Producto p = new Producto(
-                                Convert.ToInt32(reader["IdProducto"].ToString()),   //0
-                                reader["Nombre"].ToString(),                        //1
-                                categoria,                                          //2
-                                Convert.ToInt32(reader["Stock"].ToString()),        //3
-                                Convert.ToDecimal(reader["Precio"].ToString()),     //4
-                                FechaRegistro,                                      //5
-                                Convert.ToBoolean(reader["Activo"])                 //6
-                                );
+                                Convert.ToInt32(reader["IdProducto"]),
+                                reader["Nombre"].ToString(),
+                                categoria,
+                                Convert.ToInt32(reader["Stock"]),
+                                Convert.ToDecimal(reader["Precio"]), 
+                                FechaRegistro,
+                                Convert.ToBoolean(reader["Activo"])
+                            );
+
                             lista.Add(p);
                         }
                     }

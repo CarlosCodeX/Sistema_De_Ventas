@@ -15,6 +15,8 @@ namespace ProyectoPersonal_AppVentas.Controllers
         // GET: Producto
         public ActionResult Index()
         {
+            ViewBag.Categorias = new CategoriaBL().ListarCategoria();
+
             var lista = productoBL.ListarProducto();
             return View(lista);
         }

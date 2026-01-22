@@ -199,16 +199,19 @@ AS
 BEGIN
     SET NOCOUNT ON;
     SELECT 
-    IdProducto,     --0
-    Nombre,         --1
-    IdCategoria,    --2
-    Stock,          --3
-    Precio,         --4
-    FechaRegistro,  --5
-    Activo          --6
-    FROM Producto   --7
-    WHERE Activo = 1
+    p.IdProducto,     --0
+    p.Nombre,         --1
+    p.IdCategoria,    --2
+    c.Nombre AS NombreCategoria, --3
+    p.Stock,          --4
+    p.Precio,         --5
+    p.FechaRegistro,  --6
+    p.Activo          --7
+    FROM Producto p   
+    INNER JOIN Categoria c ON c.IdCategoria = p.IdCategoria
+    WHERE p.Activo = 1
 END
+
 
 GO
 CREATE PROC sp_BuscarProducto
@@ -594,5 +597,3 @@ BEGIN
     FROM Categoria
 END
 GO
-
-select * from Categoria

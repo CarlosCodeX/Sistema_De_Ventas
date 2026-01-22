@@ -1,7 +1,87 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@model List<CapaEntidad.Producto>
+
+<link href="~/Content/IndexProducto.css" rel="stylesheet" />
+
+<div class="grid-producto">
+    <nav class="menu">
+        <p>Menú</p>
+        <a href="">Inicio</a>
+        <a href="">Mis ventas</a>
+        <a href="">Mis Clientes</a>
+        <a href="">Mis Categorias</a>
+        <a href="">Mis productos</a>
+    </nav>
+    <div>
+        <h2 class="titulo">Tus Productos</h2>
+
+        <button class="btn-Agregar" onclick="abrirModal()">Nuevo Producto</button>
+
+        <table border="1" class="tabla-producto">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Categoria</th>
+                    <th>Stock</th>
+                    <th>Precio</th>
+                    <th>FechaRegistro</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var producto in Model)
+                {
+                    <tr>
+                        <td>@producto.IdProducto</td>
+                        <td>@producto.Nombre</td>
+                        <td>@producto.categoria.Nombre</td>
+                        <td>@producto.Stock</td>
+                        <td>@producto.Precio</td>
+                        <td>@producto.FechaRegistro</td>
+                        <td>@(producto.Activo ? "Activo" : "Inactivo")</td>
+                        <td>
+                            <button onclick="editar(@producto.IdProducto, '@producto.Nombre', '@producto.categoria.IdCategoria',
+                                                    @producto.Stock, @producto.Precio)">
+                                Editar
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div id="modalProducto" class="modal">
+            <div class="modal-content">
+                <h3>Actualizar Producto</h3>
+
+                <input type="hidden" id="idProducto" value="0" />
+
+                <input type="text" id="Nombre" placeholder="Nombre" />
+                <br /><br />
+
+                <label>Categoria</label>
+                <select id="idCategoria">
+                    <option value="">--Seleccione--</option>
+                    @foreach (var c in (List<CapaEntidad.Categoria>)ViewBag.Categorias)
+                    {
+                        
+                        <option value="@c.IdCategoria">@c.Nombre</option>
+                    }
+                </select>
+
+                <input type="text" id="stock" placeholder="Stock" />
+                <br /><br />
+
+                <input type="text" id="precio" placeholder="Stock" />
+                <br /><br />
+
+                <button onclick="guardar()">Guardar</button>
+                <button onclick="cerrarModal()">Cancelar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts {
+    <script src="@Url.Content("~/Scripts/producto.js")"></script>
 }
-
-<h2>Index</h2>
-

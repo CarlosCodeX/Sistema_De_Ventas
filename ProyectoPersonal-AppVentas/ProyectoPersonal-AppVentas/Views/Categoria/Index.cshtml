@@ -36,7 +36,10 @@
                         <td>@c.Descripcion</td>
                         <td>@(c.Activo ? "Activo" : "Inactivo")</td>
                         <td>
-                            <button onclick="editar(@c.IdCategoria, @c.Nombre, @c.Descripcion)">Editar</button>
+                            <button onclick="editar(@c.IdCategoria,'@c.Nombre','@c.Descripcion')">
+                                Editar
+                            </button>
+
                             <button onclick="cambiarEstado(@c.IdCategoria, @(c.Activo.ToString().ToLower()))">
                                 Estado
                             </button>
@@ -64,5 +67,8 @@
 
     </div>
 </div>
-<script src="~/Scripts/categoria.js"></script>
+@section scripts {
+    <script src="@Url.Content("~/Scripts/categoria.js")"></script>
+}
+
 
