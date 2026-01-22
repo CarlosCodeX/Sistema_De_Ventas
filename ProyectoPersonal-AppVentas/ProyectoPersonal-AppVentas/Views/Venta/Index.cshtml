@@ -3,5 +3,47 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Registrar Venta</h2>
+
+<select id="idCliente">
+    <option value="">Seleccione cliente</option>
+    @foreach (var c in (List<CapaEntidad.Cliente>) ViewBag.Clientes)
+    {
+        <option value="@c.IdCliente">@c.Nombre</option>
+    }
+</select>
+
+<hr />
+
+<select id="idProducto">
+    <option value="">Seleccione producto</option>
+    @foreach (var p in (List<CapaEntidad.Producto>) ViewBag.Productos)
+    {
+        <option value="@p.IdProducto" data-precio="@p.Precio">
+            @p.Nombre - S/ @p.Precio
+        </option>
+    }
+</select>
+
+<input type="number" id="cantidad" min="1" placeholder="Cantidad" />
+
+<button onclick="agregarProducto()">Agregar</button>
+
+<table border="1" id="tablaDetalle">
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Subtotal</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<button onclick="registrarVenta()">Registrar Venta</button>
+
+<script src="~/Scripts/venta.js"></script>
+
 

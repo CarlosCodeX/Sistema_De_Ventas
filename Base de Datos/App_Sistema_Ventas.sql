@@ -597,3 +597,12 @@ BEGIN
     FROM Categoria
 END
 GO
+
+
+--SELECTS 
+select * from Rol 
+select * FROM Usuario
+select * from Producto
+select * from Venta
+select * from DetalleVenta
+SELECT * FROM Producto

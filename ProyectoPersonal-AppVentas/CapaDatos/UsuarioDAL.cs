@@ -27,7 +27,7 @@ namespace CapaDatos
                     cmd.CommandText = "sp_InsertarUsuario";
                     cmd.Parameters.AddWithValue("@NombreUsuario", usuario.NombreUsuario);
                     cmd.Parameters.AddWithValue("@Clave", usuario.Clave);
-                    cmd.Parameters.AddWithValue("@IDRrol", usuario.rol.IdRol);
+                    cmd.Parameters.AddWithValue("@IDRol", usuario.rol.IdRol);
                     cn.Open();
                     f = cmd.ExecuteNonQuery();
                 }

@@ -13,10 +13,9 @@ namespace ProyectoPersonal_AppVentas.Controllers
         UsuarioBL usuarioBL = new UsuarioBL();
 
         // GET: Usuario
-        public ActionResult Index()
+        public ActionResult Login()
         {
-            var lista = usuarioBL.ListarUsuario();
-            return View(lista);
+            return View();
         }
 
         [HttpPost]
@@ -83,24 +82,24 @@ namespace ProyectoPersonal_AppVentas.Controllers
 
             if (usuario.rol.NombreRol == "Administrador")
             {
-                return RedirectToAction("IndexAdministrador", "Usuario");
+                return RedirectToAction("Index", "Venta");
             }
 
             if (usuario.rol.NombreRol == "Trabajador")
             {
-                return RedirectToAction("Index", "Usuario");
+                return RedirectToAction("Index", "Venta");
             }
 
             ViewBag.Error = "Rol no autorizado";
             return View("Login");
         }
 
+        // GET: Usuario/Registrar
         [HttpGet]
-        public ActionResult Login()
+        public ActionResult Registrar()
         {
             return View();
         }
-
 
     }
 }
