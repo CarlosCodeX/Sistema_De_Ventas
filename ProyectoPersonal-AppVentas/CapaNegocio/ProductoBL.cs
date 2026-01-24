@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CapaDatos;
 using CapaEntidad;
+using CapaEntidad.DTO;
 
 namespace CapaNegocio
 {
@@ -51,5 +52,14 @@ namespace CapaNegocio
             return productoDAL.buscar(nombre);
         }
 
+        public List<ProductoBajoStockDTO> ProductosBajoStock()
+        {
+            return productoDAL.productosBajoStock();
+        }
+
+        public ProductoMasVendidoDTO ProductoMasVendido()
+        {
+            return productoDAL.productoMasVendido();
+        }
     }
 }

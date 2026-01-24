@@ -1,141 +1,312 @@
-﻿body {
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
     margin: 0;
     overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .grid-login {
     display: grid;
-    grid-template-columns: 1fr 0.4fr;
+    grid-template-columns: 1fr 1fr;
     height: 100vh;
-    justify-content: center;
-    align-items: center;
+    background: linear-gradient(135deg, #28cc42 0%, #33FF51 100%);
+    position: relative;
+    overflow: hidden;
 }
 
+    /* Efecto de partículas/círculos animados en el fondo */
+    .grid-login::before {
+        content: '';
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        top: -250px;
+        left: -250px;
+        animation: float 20s infinite ease-in-out;
+    }
+
+    .grid-login::after {
+        content: '';
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+        bottom: -200px;
+        right: -200px;
+        animation: float 15s infinite ease-in-out reverse;
+    }
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+    }
+
+    50% {
+        transform: translateY(50px) translateX(50px);
+    }
+}
+
+/* Sección del logo */
 .logo-login {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 40px;
+    position: relative;
+    z-index: 1;
 }
 
-    .logo-login img {
-        width: 450px;
-        height: auto;
+.logo-container {
+    text-align: center;
+    color: white;
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
     }
 
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.logo-icon {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 30px;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+    animation: pulse 3s infinite ease-in-out;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.logo-icon svg {
+    width: 70%;
+    height: 70%;
+}
+
+.brand-title {
+    font-size: 52px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: white;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    letter-spacing: -1px;
+}
+
+.brand-subtitle {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+/* Sección del formulario */
 .formulario {
-    background: #1E8FE8;
+    background: white;
     height: 100vh;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 40px;
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
 }
+
+.form-content {
+    width: 100%;
+    max-width: 420px;
+    animation: fadeInRight 1s ease-out;
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.form-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 10px;
+    text-align: center;
+    position: relative;
+}
+
+    .form-title::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(90deg, #33FF51, #28cc42);
+        margin: 15px auto 30px;
+        border-radius: 2px;
+    }
 
 .inputs {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin-bottom: 10px;
+    gap: 25px;
+    margin-bottom: 30px;
 }
 
-    .inputs p {
-        margin: 0;
-        font-weight: bold;
-        font-size: 18px;
-    }
-
-    .inputs input {
-        padding: 10px;
-        width: 250px;
-        border: 1px solid black;
-        border-radius: 5px;
-        font-size: 16px;
-    }
-
-.rol {
+.input-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
-    font-size: 14px;
-    justify-content: center;
-    align-items: center;
+    gap: 8px;
+    position: relative;
 }
 
-    .rol select {
-        padding: 8px;
-        width: 270px;
-        border: 1px solid black;
-        border-radius: 5px;
-        font-size: 16px;
+    .input-group label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #4a5568;
+        margin-left: 4px;
+        transition: color 0.3s ease;
     }
 
-    .rol label {
-        margin-bottom: 5px;
-        font-weight: bold;
-        font-size: 18px;
+    .input-group input {
+        padding: 15px 18px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 15px;
+        outline: none;
+        transition: all 0.3s ease;
+        background: #f7fafc;
     }
 
-.soporte {
-    display: flex;
-    flex-direction: column;
-    font-size: 16px;
-    justify-content: center;
-    align-items: center;
-}
+        .input-group input:focus {
+            border-color: #33FF51;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(51, 255, 81, 0.15);
+            transform: translateY(-2px);
+        }
 
-    .soporte a {
-        text-decoration: none;
-        color: black;
-    }
+            .input-group input:focus + label {
+                color: #33FF51;
+            }
 
-.header-navegador {
-    top: 0;
-    width: 100%;
-    height: 60px;
-    background: #E6F0F7;
-    display: flex;
-    justify-content: space-between;
-}
-
-    .header-navegador h1 {
-        margin-left: 10px;
-        font-size: 25px;
-    }
-
-.navegador {
-    margin-right: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    text-align: center;
-}
-
-    .navegador a {
-        text-decoration: none;
-        color: #4FA4E8;
-    }
+        .input-group input::placeholder {
+            color: #a0aec0;
+        }
 
 .boton {
-    margin-top: 15px;
-    height: 30px;
-    width: 200px;
+    width: 100%;
+    padding: 16px;
     border: none;
-    border-radius: 25px;
-    font-size: 18px;
-    background-color: #FFFFFF;
-    color: #1E8FE8;
-    font-weight: bold;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #33FF51 0%, #28cc42 100%);
+    color: white;
     cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(51, 255, 81, 0.35);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
 }
 
-.header-navegador img {
-    width: 20px;
-    height: auto;
+    .boton::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .boton:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .boton:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(51, 255, 81, 0.5);
+    }
+
+    .boton:active {
+        transform: translateY(-1px);
+        box-shadow: 0 5px 15px rgba(51, 255, 81, 0.4);
+    }
+.footer-form {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    .footer-form p {
+        font-size: 13px;
+        color: #a0aec0;
+        font-weight: 500;
+    }
+
+
+@media (max-width: 968px) {
+    .grid-login {
+        grid-template-columns: 1fr;
+    }
+
+    .logo-login {
+        display: none;
+    }
+
+    .formulario {
+        box-shadow: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .formulario {
+        padding: 20px;
+    }
+
+    .form-title {
+        font-size: 28px;
+    }
+
+    .brand-title {
+        font-size: 40px;
+    }
 }

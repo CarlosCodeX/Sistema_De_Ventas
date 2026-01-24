@@ -1,40 +1,49 @@
 ﻿@model List<CapaEntidad.Usuario>
-
 <link href="~/Content/IndexUsuario.css" rel="stylesheet" />
 
-<div class="header-navegador">
-    <div class="logo">
-        <h1>Sistema de Ventas</h1>
-        <img src="../assets/img/shopping-basket.png" alt="Logo">
-    </div>
-    <nav class="navegador">
-        <p>Nuevo en la app?</p>
-        <a href="">Guia</a>
-        <a href="">Soporte</a>
-    </nav>
-</div>
 <div class="grid-login">
     <div class="logo-login">
-        <img src="../assets/img/login.png" alt="Logo">
-    </div>
-    <form action="@Url.Action("Login", "Usuario")" method="post">
-        <h1>Inicio de Sesión</h1>
-        <div>
-            <div class="inputs">
-                <p>Nombre de Usuario</p>
-                <input type="text" name="nombre" placeholder="Correo">
-                <label for="usuario"></label>
-
-                <p>Contraseña</p>
-                <input type="password" name="clave" placeholder="Contraseña">
-                <label for="contraseña"></label>
+        <div class="logo-container">
+            <div class="logo-icon">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="45" fill="url(#gradient)" />
+                    <path d="M 35 45 L 50 35 L 65 45 L 65 65 L 35 65 Z" fill="white" />
+                </svg>
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
             </div>
+            <h1 class="brand-title">Sistema De Ventas</h1>
+            <p class="brand-subtitle">Inicia sesión para continuar</p>
         </div>
-        <button class="boton">Iniciar Sesión</button>
-        <div class="soporte">
-            <p>Olvidaste tu contraseña?</p>
-            <a href="">Soporte</a>
+    </div>
+
+    <form class="formulario" action="@Url.Action("Login", "Usuario")" method="post">
+        <div class="form-content">
+            <h2 class="form-title">Bienvenido</h2>
+
+            <div class="inputs">
+                <div class="input-group">
+                    <label for="usuario">Usuario</label>
+                    <input id="usuario" type="text" name="nombre" placeholder="Ingresa tu usuario" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="clave">Contraseña</label>
+                    <input id="clave" type="password" name="clave" placeholder="Ingresa tu contraseña" required>
+                </div>
+            </div>
+
+            <button type="submit" class="boton">Iniciar Sesión</button>
+
+            <div class="footer-form">
+                <p>Sistema De Ventas - Juan Carlos</p>
+            </div>
         </div>
     </form>
 </div>
+
 

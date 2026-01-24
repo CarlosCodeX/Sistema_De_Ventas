@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewBag.Title = "InicioAdministrador";
+}
+<link href="~/Content/InicioAdministrador.css" rel="stylesheet" />
+<div class="layout">
+    <aside class="menu">
+        <div class="menu-header">
+            <div class="logo-menu">
+                <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="25" cy="25" r="22" fill="#33FF51" />
+                    <path d="M 17 22 L 25 17 L 33 22 L 33 33 L 17 33 Z" fill="white" />
+                </svg>
+            </div>
+            <h2>Sistema A&M</h2>
+        </div>
+        <nav class="menu-nav">
+            <a href="#" class="menu-item active">
+                <span>Inicio</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span>Categorías</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span>Productos</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span>Ventas</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span>Usuarios</span>
+            </a>
+        </nav>
+        <div class="menu-footer">
+            <a href="#" class="logout-btn">
+                <span>Cerrar Sesión</span>
+            </a>
+        </div>
+    </aside>
+    <main class="contenido">
+        <div class="header-contenido">
+            <div>
+                <h1>Dashboard</h1>
+                @if (Session["Usuario"] != null)
+                {
+                    var usuario = (CapaEntidad.Usuario)Session["Usuario"];
+                    <p class="subtitle">Bienvenido <strong class="user-name">@usuario.NombreUsuario</strong>, que planes para hoy?</p>
+                }
+                else
+                {
+                    <p class="subtitle">Bienvenido al panel de administración</p>
+                }
+            </div>
+            <div class="user-info">
+                <span class="date-info">Viernes, 23 Enero 2026</span>
+            </div>
+        </div>
+
+        <section class="kpis">
+            <div class="card">
+                <div class="card-icon" style="background: linear-gradient(135deg, #33FF51 0%, #28cc42 100%);">
+                    💵
+                </div>
+                <div class="card-content">
+                    <h3>Ventas Hoy</h3>
+                    <p id="ventasHoy">S/. 0</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    📊
+                </div>
+                <div class="card-content">
+                    <h3>Ventas Mes</h3>
+                    <p id="ventasMes">S/. 0</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                    ⚠️
+                </div>
+                <div class="card-content">
+                    <h3>Bajo Stock</h3>
+                    <p id="totalBajoStock">0 productos</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);">
+                    🏆
+                </div>
+                <div class="card-content">
+                    <h3>Más Vendido</h3>
+                    <p id="productoTop">---</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="detalles">
+            <div class="bloque">
+                <div class="bloque-header">
+                    <h2>Productos con Bajo Stock</h2>
+                    <span class="badge-alert">Atención</span>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaBajoStock">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="bloque">
+                <div class="bloque-header">
+                    <h2>Producto Más Vendido</h2>
+                    <span class="badge-success">Top</span>
+                </div>
+                <div id="detalleProductoTop"></div>
+            </div>
+        </section>
+    </main>
+</div>
+<script src="~/Scripts/jquery-3.7.1.min.js"></script>
+<script src="~/Scripts/InicioAdministrador.js"></script>
+

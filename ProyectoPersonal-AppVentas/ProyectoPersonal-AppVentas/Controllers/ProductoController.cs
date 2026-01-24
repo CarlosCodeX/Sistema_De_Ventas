@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using CapaNegocio;
 using CapaEntidad;
+using CapaEntidad.DTO;
 
 namespace ProyectoPersonal_AppVentas.Controllers
 {
@@ -83,5 +84,44 @@ namespace ProyectoPersonal_AppVentas.Controllers
 
             return Json(new { resultado, mensaje, data = lista }, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult ProductoMasVendidoMes()
+        {
+            bool resultado = true;
+            string mensaje = "";
+            ProductoMasVendidoDTO producto = null;
+
+            try
+            {
+                producto = productoBL.ProductoMasVendido();
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                mensaje = ex.Message;
+            }
+
+            return Json(new { resultado, mensaje, data = producto },JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ProductosBajoStock()
+        {
+            bool resultado = true;
+            string mensaje = "";
+            List<ProductoBajoStockDTO> lista = null;
+
+            try
+            {
+                lista = productoBL.ProductosBajoStock();
+            }
+            catch (Exception ex)
+            {
+                resultado=false;
+                mensaje = ex.Message;
+            }
+
+            return Json(new { resultado, mensaje, data = lista }, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

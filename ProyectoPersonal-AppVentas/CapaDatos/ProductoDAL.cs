@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CapaEntidad;
 using System.Data;
 using System.Data.SqlClient;
+using CapaEntidad.DTO;
 
 namespace CapaDatos
 {
@@ -254,5 +255,70 @@ namespace CapaDatos
             return lista;
         }
 
+        public List<ProductoBajoStockDTO> productosBajoStock()
+        {
+            List<ProductoBajoStockDTO> lista = new List<ProductoBajoStockDTO>();
+            using (SqlConnection cn = new SqlConnection(ConexionBD.cn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = cn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "sp_ProductoBajoStock";
+                    cn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new ProductoBajoStockDTO
+                            {
+                                IdProducto = Convert.ToInt32(reader["IdProducto"]),
+                                Nombre = reader["Nombre"].ToString(),
+                                Stock = Convert.ToInt32(reader["Stock"])
+                            });
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return lista;
+        }
+
+        public ProductoMasVendidoDTO productoMasVendido()
+        {
+            ProductoMasVendidoDTO producto = null;
+            using (SqlConnection cn = new SqlConnection(ConexionBD.cn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = cn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "SP_Producto_MasVendido_Mes";
+                    cn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            producto = new ProductoMasVendidoDTO
+                            {
+                                IdProducto = Convert.ToInt32(reader["IdProducto"]),
+                                Nombre = reader["Nombre"].ToString(),
+                                TotalVendido = Convert.ToInt32(reader["TotalVendido"])
+                            };
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return producto;
+        }
     }
 }

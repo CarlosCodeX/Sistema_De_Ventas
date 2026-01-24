@@ -82,7 +82,7 @@ namespace ProyectoPersonal_AppVentas.Controllers
 
             if (usuario.rol.NombreRol == "Administrador")
             {
-                return RedirectToAction("Index", "Venta");
+                return RedirectToAction("InicioAdministrador", "Usuario");
             }
 
             if (usuario.rol.NombreRol == "Trabajador")
@@ -94,12 +94,19 @@ namespace ProyectoPersonal_AppVentas.Controllers
             return View("Login");
         }
 
-        // GET: Usuario/Registrar
+        
         [HttpGet]
         public ActionResult Registrar()
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult InicioAdministrador()
+        {
+            return View();
+        }
+
 
     }
 }

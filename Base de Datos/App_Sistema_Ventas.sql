@@ -259,6 +259,37 @@ BEGIN
 END
 GO
 
+CREATE PROC sp_ProductoBajoStock
+AS
+BEGIN
+    SELECT 
+    IdProducto, 
+    Nombre,
+    Stock
+    FROM Producto
+    WHERE Stock < 50
+    AND Activo = 1
+    ORDER BY Stock ASC
+END
+GO
+
+CREATE PROCEDURE SP_Producto_MasVendido_Mes
+AS
+BEGIN
+    SELECT TOP 1
+        p.IdProducto,
+        p.Nombre,
+        SUM(dv.Cantidad) AS TotalVendido
+    FROM DetalleVenta dv
+    INNER JOIN Producto p ON p.idProducto = dv.idProducto
+    INNER JOIN Venta v ON v.idVenta = dv.idVenta
+    WHERE MONTH(v.fechaVenta) = MONTH(GETDATE())
+      AND YEAR(v.fechaVenta) = YEAR(GETDATE())
+    GROUP BY p.IdProducto, p.Nombre
+    ORDER BY TotalVendido DESC
+END
+GO
+
 --Venta
 GO
 CREATE TYPE TVP_DetalleVenta AS TABLE (

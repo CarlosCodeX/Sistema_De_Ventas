@@ -45,6 +45,8 @@
     <Compile Include="Cliente.cs" />
     <Compile Include="DetalleVenta.cs" />
     <Compile Include="DTO\DetalleVentaDTO.cs" />
+    <Compile Include="DTO\ProductoBajoStockDTO.cs" />
+    <Compile Include="DTO\ProductoMasVendidoDTO.cs" />
     <Compile Include="DTO\VentaDTO.cs" />
     <Compile Include="Producto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
