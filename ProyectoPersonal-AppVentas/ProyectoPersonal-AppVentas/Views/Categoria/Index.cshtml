@@ -1,75 +1,115 @@
-﻿
-@model List<CapaEntidad.Categoria>
-
+﻿@model List<CapaEntidad.Categoria>
 <link href="~/Content/IndexCategoria.css" rel="stylesheet" />
 
-<div class="grid-categoria">
-    <nav class="menu">
-        <p>Menú</p>
-        <a href="">Inicio</a>
-        <a href="">Mis Ventas</a>
-        <a href="">Mis Clientes</a>
-        <a href="">Mis Categorias</a>
-        <a href="">Mis Productos</a>
-        <a href="">Mis Trabajadores</a>
+<!-- HEADER SUPERIOR -->
+<header class="header-top">
+    <div class="header-brand">
+        <div class="brand-content">
+            <div class="logo-header">
+                <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="25" cy="25" r="22" fill="#33FF51" />
+                    <path d="M 17 22 L 25 17 L 33 22 L 33 33 L 17 33 Z" fill="white" />
+                </svg>
+            </div>
+            <h1>Sistema A&M</h1>
+        </div>
+    </div>
+    <nav class="header-nav">
+        <a href="@Url.Action("InicioAdministrador", "Usuario")">Inicio</a>
+        <a href="@Url.Action("Index", "Categoria")" class="active">Mis Categorías</a>
+        <a href="@Url.Action("Index", "Producto")">Mis Productos</a>
+        <a href="@Url.Action("Index", "Venta")">Mis Ventas</a>
+        <a href="@Url.Action("Index", "Cliente")">Mis Clientes</a>
+        <a href="@Url.Action("Index", "Usuario")">Mis Usuarios</a>
+        <a href="@Url.Action("CerrarSesion", "Usuario")" class="logout-link">Cerrar Sesión</a>
     </nav>
-    <div>
-        <h2 class="titulo">Tus Categorías</h2>
+</header>
 
-        <button class="btn-Agregar" onclick="abrirModal()">Nueva Categoría</button>
+<main class="contenido-full">
+    <div class="header-contenido">
+        <div>
+            <h1>Categorías</h1>
+            <p class="subtitle">Gestiona las categorías de productos</p>
+        </div>
+        <button class="btn-agregar" onclick="abrirModal()">
+            <span class="btn-icon">+</span>
+            <span>Nueva Categoría</span>
+        </button>
+    </div>
 
-        <table border="1" class="tabla-categoria">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var c in Model)
-                {
-                    <tr>
-                        <td>@c.IdCategoria</td>
-                        <td>@c.Nombre</td>
-                        <td>@c.Descripcion</td>
-                        <td>@(c.Activo ? "Activo" : "Inactivo")</td>
-                        <td>
-                            <button onclick="editar(@c.IdCategoria,'@c.Nombre','@c.Descripcion')">
-                                Editar
-                            </button>
+    <!-- VISTA DE CARDS -->
+    <section class="categorias-grid">
+        @foreach (var c in Model)
+        {
+            <div class="categoria-card">
+                <div class="card-header">
+                    <div class="categoria-icon">
+                        📁
+                    </div>
+                    <div class="card-header-info">
+                        <h3 class="categoria-nombre">@c.Nombre</h3>
+                        <span class="categoria-id">#@c.IdCategoria</span>
+                    </div>
+                    @if (c.Activo)
+                    {
+                        <span class="badge badge-activo">Activo</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-inactivo">Inactivo</span>
+                    }
+                </div>
 
-                            <button onclick="cambiarEstado(@c.IdCategoria, @(c.Activo.ToString().ToLower()))">
-                                Estado
-                            </button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                <div class="card-body">
+                    <div class="descripcion-box">
+                        <span class="descripcion-label">Descripción</span>
+                        <p class="descripcion-text">@c.Descripcion</p>
+                    </div>
+                </div>
 
-        <div id="modalCategoria" class="modal">
-            <div class="modal-content">
+                <div class="card-footer">
+                    <button class="btn-card btn-editar" onclick="editar(@c.IdCategoria,'@c.Nombre','@c.Descripcion')" title="Editar">
+                        <span>✏️</span>
+                        Editar
+                    </button>
+                    <button class="btn-card btn-estado" onclick="cambiarEstado(@c.IdCategoria, @(c.Activo.ToString().ToLower()))" title="Cambiar Estado">
+                        <span>🔄</span>
+                        Estado
+                    </button>
+                </div>
+            </div>
+        }
+    </section>
+
+    <!-- MODAL -->
+    <div id="modalCategoria" class="modal">
+        <div class="modal-overlay" onclick="cerrarModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
                 <h3>Nueva Categoría</h3>
-
+                <button class="btn-close" onclick="cerrarModal()">✕</button>
+            </div>
+            <div class="modal-body">
                 <input type="hidden" id="idCategoria" value="0" />
 
-                <input type="text" id="nombre" placeholder="Nombre" />
-                <br /><br />
-                <input type="text" id="descripcion" style="height: 200px" placeholder="Descripción" />
-                <br /><br />
+                <div class="form-group">
+                    <label for="nombre">Nombre de la Categoría</label>
+                    <input type="text" id="nombre" placeholder="Ej: Bebidas, Snacks, etc." />
+                </div>
 
-                <button onclick="guardar()">Guardar</button>
-                <button onclick="cerrarModal()">Cancelar</button>
+                <div class="form-group">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" rows="5" placeholder="Descripción detallada de la categoría..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="cerrarModal()">Cancelar</button>
+                <button class="btn-primary" onclick="guardar()">Guardar Categoría</button>
             </div>
         </div>
-
     </div>
-</div>
+</main>
+
 @section scripts {
     <script src="@Url.Content("~/Scripts/categoria.js")"></script>
 }
-
-

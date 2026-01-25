@@ -1,80 +1,154 @@
 ﻿@model List<CapaEntidad.Cliente>
-
 <link href="~/Content/IndexCliente.css" rel="stylesheet" />
 
-<div class="grid-cliente">
-    <nav class="menu">
-        <p>Menú</p>
-        <a href="">Inicio</a>
-        <a href="">Mis ventas</a>
-        <a href="">Mis Clientes</a>
-        <a href="">Mis Categorias</a>
-        <a href="">Mis productos</a>
+<!-- HEADER SUPERIOR -->
+<header class="header-top">
+    <div class="header-brand">
+        <div class="brand-content">
+            <div class="logo-header">
+                <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="25" cy="25" r="22" fill="#33FF51" />
+                    <path d="M 17 22 L 25 17 L 33 22 L 33 33 L 17 33 Z" fill="white" />
+                </svg>
+            </div>
+            <h1>Sistema A&M</h1>
+        </div>
+    </div>
+    <nav class="header-nav">
+        <a href="@Url.Action("InicioAdministrador", "Usuario")">Inicio</a>
+        <a href="@Url.Action("Index", "Categoria")">Mis Categorías</a>
+        <a href="@Url.Action("Index", "Producto")">Mis Productos</a>
+        <a href="@Url.Action("Index", "Venta")">Mis Ventas</a>
+        <a href="@Url.Action("Index", "Cliente")" class="active">Mis Clientes</a>
+        <a href="@Url.Action("Index", "Usuario")">Mis Usuarios</a>
+        <a href="@Url.Action("CerrarSesion", "Usuario")" class="logout-link">Cerrar Sesión</a>
     </nav>
-    <div>
-        <h2 class="titulo">Tus Clientes</h2>
+</header>
 
-        <button class="btn-Agregar" onclick="abrirModal()">Nuevo Cliente</button>
+<main class="contenido-full">
+    <div class="header-contenido">
+        <div>
+            <h1>Clientes</h1>
+            <p class="subtitle">Administra la información de tus clientes</p>
+        </div>
+        <button class="btn-agregar" onclick="abrirModal()">
+            <span class="btn-icon">+</span>
+            <span>Nuevo Cliente</span>
+        </button>
+    </div>
 
-        <table border="1" class="tabla-cliente">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Documento</th>
-                    <th>Telefono</th>
-                    <th>Email</th>
-                    <th>FechaRegistro</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var cliente in Model)
-                {
-                    <tr>
-                        <td>@cliente.IdCliente</td>
-                        <td>@cliente.Nombre</td>
-                        <td>@cliente.Documento</td>
-                        <td>@cliente.Telefono</td>
-                        <td>@cliente.Email</td>
-                        <td>@cliente.FechaRegistro</td>
-                        <td>@(cliente.Activo ? "Activo" : "Inactivo")</td>
-                        <td>
-                            <button onclick="editar(@cliente.IdCliente, '@cliente.Nombre', '@cliente.Documento',
-                                                    '@cliente.Telefono', '@cliente.Email')">
-                                Editar
-                            </button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <!-- VISTA DE CARDS -->
+    <section class="clientes-grid">
+        @foreach (var cliente in Model)
+        {
+            <div class="cliente-card">
+                <div class="card-header">
+                    <div class="cliente-avatar">
+                        @cliente.Nombre.Substring(0, 1).ToUpper()
+                    </div>
+                    <div class="card-header-info">
+                        <h3 class="cliente-nombre">@cliente.Nombre</h3>
+                        <span class="cliente-id">#@cliente.IdCliente</span>
+                    </div>
+                    @if (cliente.Activo)
+                    {
+                        <span class="badge badge-activo">Activo</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-inactivo">Inactivo</span>
+                    }
+                </div>
 
-        <div id="modalCliente" class="modal">
-            <div class="modal-content">
-                <h3>Actualizar Cliente</h3>
+                <div class="card-body">
+                    <div class="info-item">
+                        <span class="info-icon">📄</span>
+                        <div class="info-content">
+                            <span class="info-label">Documento</span>
+                            <span class="info-value">@cliente.Documento</span>
+                        </div>
+                    </div>
 
+                    <div class="info-item">
+                        <span class="info-icon">📞</span>
+                        <div class="info-content">
+                            <span class="info-label">Teléfono</span>
+                            <span class="info-value">@cliente.Telefono</span>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-icon">📧</span>
+                        <div class="info-content">
+                            <span class="info-label">Email</span>
+                            <span class="info-value">@cliente.Email</span>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-icon">📅</span>
+                        <div class="info-content">
+                            <span class="info-label">Registro</span>
+                            <span class="info-value">@cliente.FechaRegistro.ToString("dd/MM/yyyy")</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button class="btn-card btn-editar" onclick="editar(@cliente.IdCliente, '@cliente.Nombre', '@cliente.Documento', '@cliente.Telefono', '@cliente.Email')">
+                        <span>✏️</span>
+                        Editar
+                    </button>
+                </div>
+            </div>
+        }
+    </section>
+
+    <!-- MODAL -->
+    <div id="modalCliente" class="modal">
+        <div class="modal-overlay" onclick="cerrarModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nuevo Cliente</h3>
+                <button class="btn-close" onclick="cerrarModal()">✕</button>
+            </div>
+            <div class="modal-body">
                 <input type="hidden" id="idCliente" value="0" />
 
-                <input type="text" id="Nombre" placeholder="Nombre" />
-                <br /><br />
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="Nombre">Nombre Completo</label>
+                        <input type="text" id="Nombre" placeholder="Ej: Juan Pérez" />
+                    </div>
+                </div>
 
-                <input type="text" id="documento" placeholder="Documento" />
-                <br /><br />
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="documento">Documento</label>
+                        <input type="text" id="documento" placeholder="DNI o RUC" />
+                    </div>
 
-                <input type="text" id="telefono" placeholder="Telefono" />
-                <br /><br />
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="text" id="telefono" placeholder="+51 999 999 999" />
+                    </div>
+                </div>
 
-                <input type="text" id="email" placeholder="Email" />
-                <br /><br />
-
-                <button onclick="guardar()">Guardar</button>
-                <button onclick="cerrarModal()">Cancelar</button>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="cliente@ejemplo.com" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="cerrarModal()">Cancelar</button>
+                <button class="btn-primary" onclick="guardar()">Guardar Cliente</button>
             </div>
         </div>
-
     </div>
-</div>
+</main>
+
 @section scripts {
     <script src="@Url.Content("~/Scripts/cliente.js")"></script>
 }

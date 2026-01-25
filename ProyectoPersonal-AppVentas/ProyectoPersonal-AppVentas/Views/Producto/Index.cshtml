@@ -1,87 +1,154 @@
 ﻿@model List<CapaEntidad.Producto>
-
 <link href="~/Content/IndexProducto.css" rel="stylesheet" />
 
-<div class="grid-producto">
-    <nav class="menu">
-        <p>Menú</p>
-        <a href="">Inicio</a>
-        <a href="">Mis ventas</a>
-        <a href="">Mis Clientes</a>
-        <a href="">Mis Categorias</a>
-        <a href="">Mis productos</a>
+<!-- HEADER SUPERIOR -->
+<header class="header-top">
+    <div class="header-brand">
+        <div class="brand-content">
+            <div class="logo-header">
+                <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="25" cy="25" r="22" fill="#33FF51" />
+                    <path d="M 17 22 L 25 17 L 33 22 L 33 33 L 17 33 Z" fill="white" />
+                </svg>
+            </div>
+            <h1>Sistema A&M</h1>
+        </div>
+    </div>
+    <nav class="header-nav">
+        <a href="@Url.Action("InicioAdministrador", "Usuario")">Inicio</a>
+        <a href="@Url.Action("Index", "Categoria")">Mis Categorías</a>
+        <a href="@Url.Action("Index", "Producto")" class="active">Mis Productos</a>
+        <a href="@Url.Action("Index", "Venta")">Mis Ventas</a>
+        <a href="@Url.Action("Index", "Cliente")">Mis Clientes</a>
+        <a href="@Url.Action("Index", "Usuario")">Mis Usuarios</a>
+        <a href="@Url.Action("CerrarSesion", "Usuario")" class="logout-link">Cerrar Sesión</a>
     </nav>
-    <div>
-        <h2 class="titulo">Tus Productos</h2>
+</header>
 
-        <button class="btn-Agregar" onclick="abrirModal()">Nuevo Producto</button>
+<main class="contenido-full">
+    <div class="header-contenido">
+        <div>
+            <h1>Productos</h1>
+            <p class="subtitle">Gestiona el catálogo de productos</p>
+        </div>
+        <button class="btn-agregar" onclick="abrirModal()">
+            <span class="btn-icon">+</span>
+            <span>Nuevo Producto</span>
+        </button>
+    </div>
 
-        <table border="1" class="tabla-producto">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Categoria</th>
-                    <th>Stock</th>
-                    <th>Precio</th>
-                    <th>FechaRegistro</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var producto in Model)
-                {
-                    <tr>
-                        <td>@producto.IdProducto</td>
-                        <td>@producto.Nombre</td>
-                        <td>@producto.categoria.Nombre</td>
-                        <td>@producto.Stock</td>
-                        <td>@producto.Precio</td>
-                        <td>@producto.FechaRegistro</td>
-                        <td>@(producto.Activo ? "Activo" : "Inactivo")</td>
-                        <td>
-                            <button onclick="editar(@producto.IdProducto, '@producto.Nombre', '@producto.categoria.IdCategoria',
-                                                    @producto.Stock, @producto.Precio)">
-                                Editar
-                            </button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <!-- VISTA DE CARDS -->
+    <section class="productos-grid">
+        @foreach (var producto in Model)
+        {
+            <div class="producto-card">
+                <div class="card-header">
+                    <div class="producto-icon">
+                        📦
+                    </div>
+                    <div class="card-header-info">
+                        <h3 class="producto-nombre">@producto.Nombre</h3>
+                        <span class="producto-id">#@producto.IdProducto</span>
+                    </div>
+                    @if (producto.Activo)
+                    {
+                        <span class="badge badge-activo">Activo</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-inactivo">Inactivo</span>
+                    }
+                </div>
 
-        <div id="modalProducto" class="modal">
-            <div class="modal-content">
-                <h3>Actualizar Producto</h3>
+                <div class="card-body">
+                    <div class="info-row">
+                        <div class="info-item">
+                            <span class="info-icon">📁</span>
+                            <div class="info-content">
+                                <span class="info-label">Categoría</span>
+                                <span class="info-value">@producto.categoria.Nombre</span>
+                            </div>
+                        </div>
 
+                        <div class="info-item">
+                            <span class="info-icon">📅</span>
+                            <div class="info-content">
+                                <span class="info-label">Registro</span>
+                                <span class="info-value">@producto.FechaRegistro.ToString("dd/MM/yyyy")</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="precio-stock-row">
+                        <div class="precio-box">
+                            <span class="precio-label">Precio</span>
+                            <span class="precio-valor">S/. @producto.Precio.ToString("N2")</span>
+                        </div>
+
+                        <div class="stock-box @(producto.Stock < 10 ? "stock-bajo" : "")">
+                            <span class="stock-label">Stock</span>
+                            <span class="stock-valor">@producto.Stock</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button class="btn-card btn-editar" onclick="editar(@producto.IdProducto, '@producto.Nombre', '@producto.categoria.IdCategoria', @producto.Stock, @producto.Precio)">
+                        <span>✏️</span>
+                        Editar
+                    </button>
+                </div>
+            </div>
+        }
+    </section>
+
+    <!-- MODAL -->
+    <div id="modalProducto" class="modal">
+        <div class="modal-overlay" onclick="cerrarModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nuevo Producto</h3>
+                <button class="btn-close" onclick="cerrarModal()">✕</button>
+            </div>
+            <div class="modal-body">
                 <input type="hidden" id="idProducto" value="0" />
 
-                <input type="text" id="Nombre" placeholder="Nombre" />
-                <br /><br />
+                <div class="form-group">
+                    <label for="Nombre">Nombre del Producto</label>
+                    <input type="text" id="Nombre" placeholder="Ej: Coca Cola 500ml" />
+                </div>
 
-                <label>Categoria</label>
-                <select id="idCategoria">
-                    <option value="">--Seleccione--</option>
-                    @foreach (var c in (List<CapaEntidad.Categoria>)ViewBag.Categorias)
-                    {
-                        
-                        <option value="@c.IdCategoria">@c.Nombre</option>
-                    }
-                </select>
+                <div class="form-group">
+                    <label for="idCategoria">Categoría</label>
+                    <select id="idCategoria">
+                        <option value="">--Seleccione una categoría--</option>
+                        @foreach (var c in (List<CapaEntidad.Categoria>)ViewBag.Categorias)
+                        {
+                            <option value="@c.IdCategoria">@c.Nombre</option>
+                        }
+                    </select>
+                </div>
 
-                <input type="text" id="stock" placeholder="Stock" />
-                <br /><br />
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="stock">Stock</label>
+                        <input type="number" id="stock" placeholder="0" min="0" />
+                    </div>
 
-                <input type="text" id="precio" placeholder="Stock" />
-                <br /><br />
-
-                <button onclick="guardar()">Guardar</button>
-                <button onclick="cerrarModal()">Cancelar</button>
+                    <div class="form-group">
+                        <label for="precio">Precio (S/.)</label>
+                        <input type="number" id="precio" placeholder="0.00" step="0.01" min="0" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="cerrarModal()">Cancelar</button>
+                <button class="btn-primary" onclick="guardar()">Guardar Producto</button>
             </div>
         </div>
-
     </div>
-</div>
+</main>
+
 @section scripts {
     <script src="@Url.Content("~/Scripts/producto.js")"></script>
 }
