@@ -16,7 +16,6 @@ body {
     min-height: 100vh;
 }
 
-/* ========== MENÚ LATERAL ========== */
 .menu {
     background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
     color: white;
@@ -28,7 +27,6 @@ body {
     overflow: hidden;
 }
 
-    /* Efecto de partículas en el menú */
     .menu::before {
         content: '';
         position: absolute;
@@ -203,7 +201,7 @@ body {
         transform: translateX(5px);
     }
 
-/* ========== CONTENIDO PRINCIPAL ========== */
+
 .contenido {
     padding: 40px;
     background: #f5f7fa;
@@ -211,7 +209,6 @@ body {
     position: relative;
 }
 
-    /* Patrón de fondo sutil */
     .contenido::before {
         content: '';
         position: absolute;
@@ -281,8 +278,6 @@ body {
     font-weight: 600;
 }
 
-/* ========== TARJETAS KPI ========== */
-/* ========== TARJETAS KPI ========== */
 .kpis {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -331,7 +326,6 @@ body {
         transition: width 0.6s ease, height 0.6s ease;
     }
 
-    /* Card 1 - Ventas Hoy (Verde) */
     .card:nth-child(1)::before {
         background: linear-gradient(90deg, #33FF51, #28cc42);
     }
@@ -348,7 +342,6 @@ body {
             color: #33FF51;
         }
 
-    /* Card 2 - Ventas Mes (Azul) */
     .card:nth-child(2)::before {
         background: linear-gradient(90deg, #3b82f6, #1d4ed8);
     }
@@ -365,7 +358,6 @@ body {
             color: #3b82f6;
         }
 
-    /* Card 3 - Bajo Stock (Rojo) */
     .card:nth-child(3)::before {
         background: linear-gradient(90deg, #ef4444, #dc2626);
     }
@@ -382,7 +374,6 @@ body {
             color: #ef4444;
         }
 
-    /* Card 4 - Más Vendido (Dorado) */
     .card:nth-child(4)::before {
         background: linear-gradient(90deg, #f59e0b, #d97706);
     }
@@ -399,7 +390,6 @@ body {
             color: #f59e0b;
         }
 
-    /* Hover general para todas las cards */
     .card:hover {
         transform: translateY(-8px) scale(1.02);
     }
@@ -453,7 +443,6 @@ body {
         margin: 0;
         transition: color 0.3s ease;
     }
-/* ========== SECCIÓN DETALLES ========== */
 .detalles {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -531,7 +520,6 @@ body {
     animation: badgePulse 2s infinite;
 }
 
-/* ========== TABLA ========== */
 .table-container {
     border-radius: 12px;
 }
@@ -604,7 +592,6 @@ tbody td {
     border: 2px dashed #cbd5e0;
 }
 
-/* ========== RESPONSIVE ========== */
 @media (max-width: 1200px) {
     .kpis {
         grid-template-columns: repeat(2, 1fr);

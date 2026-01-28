@@ -13,7 +13,6 @@
         return;
     }
 
-    // 🔴 SOLO VALIDAR CLAVE SI ES NUEVO
     if (usuario.IdUsuario == 0) {
         if (usuario.Clave.trim() === "") {
             alert("Ingrese la contraseña");

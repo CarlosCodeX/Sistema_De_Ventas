@@ -17,8 +17,12 @@
         </div>
     </div>
     <nav class="header-nav">
-        <a href="@Url.Action("Index", "Inicio")">Inicio</a>
-        <a href="@Url.Action("Index", "Venta")" class="active">Ventas</a>
+        <a href="@Url.Action("InicioAdministrador", "Usuario")">Inicio</a>
+        <a href="@Url.Action("Index", "Categoria")">Mis Categorías</a>
+        <a href="@Url.Action("Index", "Producto")">Mis Productos</a>
+        <a href="@Url.Action("Index", "Venta")" class="active">Mis Ventas</a>
+        <a href="@Url.Action("Index", "Cliente")">Mis Clientes</a>
+        <a href="@Url.Action("Registrar", "Usuario")">Mis Trabajadores</a>
         <a href="@Url.Action("CerrarSesion", "Usuario")" class="logout-link">Cerrar Sesión</a>
     </nav>
 </header>
