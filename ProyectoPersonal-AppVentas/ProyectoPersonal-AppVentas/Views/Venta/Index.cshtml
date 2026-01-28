@@ -1,45 +1,106 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Ventas";
 }
+<link href="~/Content/IndexVenta.css" rel="stylesheet" />
 
-<h2>Listado de Venta</h2>
+<header class="header-top">
+    <div class="header-brand">
+        <div class="brand-content">
+            <div class="logo-header">
+                <svg viewBox="0 0 50 50">
+                    <circle cx="25" cy="25" r="22" fill="#33FF51" />
+                    <path d="M 17 22 L 25 17 L 33 22 L 33 33 L 17 33 Z" fill="white" />
+                </svg>
+            </div>
+            <h1>Sistema A&M</h1>
+        </div>
+    </div>
+    <nav class="header-nav">
+        <a href="@Url.Action("Index", "Inicio")">Inicio</a>
+        <a href="@Url.Action("Index", "Venta")" class="active">Ventas</a>
+        <a href="@Url.Action("CerrarSesion", "Usuario")" class="logout-link">Cerrar Sesión</a>
+    </nav>
+</header>
 
-<table id="tablaVentasHoy">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Cliente</th>
-            <th>Fecha</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+<main class="contenido-full">
 
-<table id="tablaVentasMes">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Cliente</th>
-            <th>Fecha</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+    <div class="header-contenido">
+        <h1>Historial de Ventas</h1>
+    </div>
 
-<table id="tablaVentasAdmin">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Cliente</th>
-            <th>Fecha</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="cambiarTab('hoy')" id="tabHoy">Ventas de Hoy</button>
+        <button class="tab-btn" onclick="cambiarTab('mes')" id="tabMes">Ventas del Mes</button>
+        <button class="tab-btn" onclick="cambiarTab('todas')" id="tabTodas">Todas</button>
+    </div>
+
+    <!-- HOY -->
+    <section class="tabla-section" id="seccionHoy">
+        <table class="tabla-ventas" id="tablaVentasHoy">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <!-- MES -->
+    <section class="tabla-section" id="seccionMes" style="display:none">
+        <table class="tabla-ventas" id="tablaVentasMes">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <!-- TODAS -->
+    <section class="tabla-section" id="seccionTodas" style="display:none">
+        <table class="tabla-ventas" id="tablaVentasAdmin">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <!-- MODAL -->
+    <div id="modalDetalle" class="modal">
+        <div class="modal-overlay" onclick="cerrarModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Detalle de Venta</h3>
+                <button onclick="cerrarModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>ID:</strong> <span id="detalleId"></span></p>
+                <p><strong>Cliente:</strong> <span id="detalleCliente"></span></p>
+                <p><strong>Fecha:</strong> <span id="detalleFecha"></span></p>
+                <p><strong>Total:</strong> <span id="detalleTotal"></span></p>
+            </div>
+        </div>
+    </div>
+
+</main>
 
 <script src="~/Scripts/jquery-3.7.1.min.js"></script>
 <script src="~/Scripts/venta.js"></script>

@@ -1,165 +1,83 @@
 ﻿$(document).ready(function () {
     listarVentasHoy();
     listarVentasMes();
-    listarVentasAdmin();
+    listarTodas();
 });
 
-var detalles = [];
+function cambiarTab(tipo) {
+    $('#seccionHoy, #seccionMes, #seccionTodas').hide();
+    $('.tab-btn').removeClass('active');
 
-function agregarProducto() {
-    var idProducto = $("#idProducto").val();
-    var nombre = $("#idProducto option:selected").text();
-    var precio = parseFloat($("#idProducto option:selected").data("precio"));
-    var cantidad = parseInt($("#cantidad").val());
-
-    if (!idProducto || cantidad <= 0) {
-        alert("Datos inválidos");
-        return;
+    if (tipo === 'hoy') {
+        $('#seccionHoy').show();
+        $('#tabHoy').addClass('active');
     }
-
-    detalles.push({
-        IdProducto: idProducto,
-        Cantidad: cantidad
-    });
-
-    var subtotal = precio * cantidad;
-
-    $("#tablaDetalle tbody").append(`
-        <tr>
-            <td>${nombre}</td>
-            <td>${cantidad}</td>
-            <td>${precio}</td>
-            <td>${subtotal}</td>
-            <td><button onclick="this.parentElement.parentElement.remove()">X</button></td>
-        </tr>
-    `);
-}
-
-function registrarVenta() {
-    var venta = {
-        IdCliente: $("#idCliente").val(),
-        Detalles: detalles
-    };
-
-    $.ajax({
-        url: '/Venta/RegistrarVenta',
-        type: 'POST',
-        data: JSON.stringify(venta),
-        contentType: 'application/json',
-        success: function (r) {
-            if (r.resultado) {
-                alert("Venta registrada correctamente");
-                location.reload();
-            } else {
-                alert(r.mensaje);
-            }
-        }
-    });
+    if (tipo === 'mes') {
+        $('#seccionMes').show();
+        $('#tabMes').addClass('active');
+    }
+    if (tipo === 'todas') {
+        $('#seccionTodas').show();
+        $('#tabTodas').addClass('active');
+    }
 }
 
 function listarVentasHoy() {
-
-    $.ajax({
-        url: '/Venta/ListarVentasHoy',
-        type: 'GET',
-        success: function (ventas) {
-
-            console.log(ventas); 
-
-            let tbody = $("#tablaVentasHoy tbody");
-            tbody.empty();
-
-            ventas.forEach(v => {
-
-                let fila = `
-                    <tr>
-                        <td>${v.IdVenta}</td>
-                        <td>${v.cliente.Nombre}</td>
-                        <td>${formatearFecha(v.FechaVenta)}</td>
-                        <td>S/ ${v.Total.toFixed(2)}</td>
-                    </tr>
-                `;
-
-                tbody.append(fila);
-            });
-        },
-        error: function () {
-            alert("Error al listar ventas de hoy");
-        }
+    $.get('/Venta/ListarVentasHoy', function (data) {
+        llenarTabla('#tablaVentasHoy tbody', data);
     });
 }
-
 
 function listarVentasMes() {
-
-    $.ajax({
-        url: '/Venta/ListarVentasMes',
-        type: 'GET',
-        success: function (ventas) {
-
-            console.log(ventas);
-
-            let tbody = $("#tablaVentasMes tbody");
-            tbody.empty();
-
-            ventas.forEach(v => {
-
-                let fila = `
-                    <tr>
-                        <td>${v.IdVenta}</td>
-                        <td>${v.cliente.Nombre}</td>
-                        <td>${formatearFecha(v.FechaVenta)}</td>
-                        <td>S/ ${v.Total.toFixed(2)}</td>
-                    </tr>
-                `;
-
-                tbody.append(fila);
-            });
-        },
-        error: function () {
-            alert("Error al listar ventas de hoy");
-        }
+    $.get('/Venta/ListarVentasMes', function (data) {
+        llenarTabla('#tablaVentasMes tbody', data);
     });
 }
 
-function listarVentasAdmin() {
-
-    $.ajax({
-        url: '/Venta/ListarVentasAdmin',
-        type: 'GET',
-        success: function (ventas) {
-
-            console.log(ventas);
-
-            let tbody = $("#tablaVentasAdmin tbody");
-            tbody.empty();
-
-            ventas.forEach(v => {
-
-                let fila = `
-                    <tr>
-                        <td>${v.IdVenta}</td>
-                        <td>${v.cliente.Nombre}</td>
-                        <td>${formatearFecha(v.FechaVenta)}</td>
-                        <td>S/ ${v.Total.toFixed(2)}</td>
-                    </tr>
-                `;
-
-                tbody.append(fila);
-            });
-        },
-        error: function () {
-            alert("Error al listar ventas de hoy");
-        }
+function listarTodas() {
+    $.get('/Venta/ListarVentasAdmin', function (data) {
+        llenarTabla('#tablaVentasAdmin tbody', data);
     });
 }
 
-function formatearFecha(fechaNet) {
-    if (!fechaNet) return "";
+function llenarTabla(selector, data) {
+    let html = '';
 
-    var timestamp = parseInt(fechaNet.replace("/Date(", "").replace(")/", ""));
-    var fecha = new Date(timestamp);
+    data.forEach(v => {
+        html += `
+            <tr>
+                <td>${v.IdVenta}</td>
+                <td>${v.cliente.Nombre}</td>
+                <td>${formatearFecha(v.FechaVenta)}</td>
+                <td>S/. ${v.Total.toFixed(2)}</td>
+                <td>
+                    <button onclick="verDetalle(
+                        ${v.IdVenta},
+                        '${v.cliente.Nombre}',
+                        '${formatearFecha(v.FechaVenta)}',
+                        ${v.Total}
+                    )">👁</button>
+                </td>
+            </tr>`;
+    });
 
-    return fecha.toLocaleDateString("es-PE");
+    $(selector).html(html);
 }
 
+function verDetalle(id, cliente, fecha, total) {
+    $('#detalleId').text(id);
+    $('#detalleCliente').text(cliente);
+    $('#detalleFecha').text(fecha);
+    $('#detalleTotal').text('S/. ' + total.toFixed(2));
+    $('#modalDetalle').show();
+}
+
+function cerrarModal() {
+    $('#modalDetalle').hide();
+}
+
+function formatearFecha(valor) {
+    const timestamp = parseInt(valor.replace(/\D/g, ''));
+    const d = new Date(timestamp);
+    return d.toLocaleString();
+}
