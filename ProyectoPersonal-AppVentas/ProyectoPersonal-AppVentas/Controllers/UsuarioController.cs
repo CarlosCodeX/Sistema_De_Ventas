@@ -37,6 +37,7 @@ namespace ProyectoPersonal_AppVentas.Controllers
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public JsonResult CambiarEstado(int id, bool activo)
         {
             bool resultado = true;
@@ -98,7 +99,10 @@ namespace ProyectoPersonal_AppVentas.Controllers
         [HttpGet]
         public ActionResult Registrar()
         {
-            return View();
+            ViewBag.Usuarios = new UsuarioBL().ListarUsuario();
+            var lista = usuarioBL.ListarUsuario();
+
+            return View(lista);
         }
 
         [HttpGet]

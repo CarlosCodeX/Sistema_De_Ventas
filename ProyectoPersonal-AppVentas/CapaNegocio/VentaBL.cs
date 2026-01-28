@@ -25,17 +25,17 @@ namespace CapaNegocio
             return ventaDAL.RegistrarVenta(idCliente, detalles);
         }
 
-        public List<Venta> ListarVentasHoy()
+        public List<VentaListadoDTO> ListarVentasHoy()
         {
             return ventaDAL.listarHoy();
         }
 
-        public List<Venta> ListarVentasMes()
+        public List<VentaListadoDTO> ListarVentasMes()
         {
             return ventaDAL.listarMes();
         }
 
-        public List<Venta> ListarVentasAdmin()
+        public List<VentaListadoDTO> ListarVentasAdmin()
         {
             return ventaDAL.listarAdmin();
         }
@@ -50,7 +50,7 @@ namespace CapaNegocio
             return ventaDAL.TotalVentasMes();
         }
 
-        public List<Venta> BuscarVentasAdmin(string nombreCliente)
+        public List<VentaListadoDTO> BuscarVentasAdmin(string nombreCliente)
         {
             if (string.IsNullOrWhiteSpace(nombreCliente))
                 return ventaDAL.listarAdmin();

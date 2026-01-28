@@ -178,6 +178,7 @@
     <Content Include="Scripts\jquery-3.7.1.min.map" />
     <Content Include="Views\Usuario\Registrar.cshtml" />
     <Content Include="Views\Usuario\InicioAdministrador.cshtml" />
+    <Content Include="Views\Venta\RegistroVentas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

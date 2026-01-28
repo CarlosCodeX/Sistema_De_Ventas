@@ -52,9 +52,9 @@ namespace CapaDatos
             return resultado;
         }
 
-        public List<Venta> listarHoy()
+        public List<VentaListadoDTO> listarHoy()
         {
-            List<Venta> lista = new List<Venta>();
+            List<VentaListadoDTO> lista = new List<VentaListadoDTO>();
             using (SqlConnection cn = new SqlConnection(ConexionBD.cn))
             {
                 try
@@ -70,19 +70,18 @@ namespace CapaDatos
                         {
                             Cliente cliente = new Cliente()
                             {
-                                IdCliente = Convert.ToInt32(reader["IdCliente"].ToString())
+                                Nombre = reader["Cliente"].ToString()
                             };
 
                             DateTime FechaVenta = Convert.ToDateTime(reader["FechaVenta"].ToString());
 
-                            Venta venta = new Venta(
-                                Convert.ToInt32(reader["IdVenta"].ToString()),
-                                cliente,
-                                FechaVenta,
-                                Convert.ToDecimal(reader["Total"].ToString()),
-                                new List<DetalleVenta>()
-                                );
-                            lista.Add(venta);
+                            lista.Add(new VentaListadoDTO
+                            {
+                                IdVenta = Convert.ToInt32(reader["IdVenta"].ToString()),
+                                cliente = cliente,
+                                FechaVenta = FechaVenta,
+                                Total = Convert.ToDecimal(reader["Total"].ToString()),
+                            });
                         }
                     }
                 }
@@ -120,9 +119,9 @@ namespace CapaDatos
             return total;
         }
 
-        public List<Venta> listarMes()
+        public List<VentaListadoDTO> listarMes()
         {
-            List<Venta> lista = new List<Venta>();
+            List<VentaListadoDTO> lista = new List<VentaListadoDTO>();
             using (SqlConnection cn = new SqlConnection(ConexionBD.cn))
             {
                 try
@@ -138,19 +137,18 @@ namespace CapaDatos
                         {
                             Cliente cliente = new Cliente()
                             {
-                                IdCliente = Convert.ToInt32(reader["IdCliente"].ToString())
+                                Nombre = reader["Cliente"].ToString()
                             };
 
                             DateTime FechaVenta = Convert.ToDateTime(reader["FechaVenta"].ToString());
 
-                            Venta venta = new Venta(
-                                Convert.ToInt32(reader["IdVenta"].ToString()),
-                                cliente,
-                                FechaVenta,
-                                Convert.ToDecimal(reader["Total"].ToString()),
-                                new List<DetalleVenta>()
-                                );
-                            lista.Add(venta);
+                            lista.Add(new VentaListadoDTO
+                            {
+                                IdVenta = Convert.ToInt32(reader["IdVenta"].ToString()),
+                                cliente = cliente,
+                                FechaVenta = FechaVenta,
+                                Total = Convert.ToDecimal(reader["Total"].ToString()),
+                            });
                         }
                     }
                 }
@@ -188,9 +186,9 @@ namespace CapaDatos
             return total;
         }
 
-        public List<Venta> listarAdmin() //ESTE LISTA TODAS LAS VENTAS, SOLO LO PUEDE USAR EL ADMINISTRADOR
+        public List<VentaListadoDTO> listarAdmin() //ESTE LISTA TODAS LAS VENTAS, SOLO LO PUEDE USAR EL ADMINISTRADOR
         {
-            List<Venta> lista = new List<Venta>();
+            List<VentaListadoDTO> lista = new List<VentaListadoDTO>();
             using (SqlConnection cn = new SqlConnection(ConexionBD.cn))
             {
                 try
@@ -211,14 +209,13 @@ namespace CapaDatos
 
                             DateTime FechaVenta = Convert.ToDateTime(reader["FechaVenta"].ToString());
 
-                            Venta venta = new Venta(
-                                Convert.ToInt32(reader["IdVenta"].ToString()),
-                                cliente,
-                                FechaVenta,
-                                Convert.ToDecimal(reader["Total"].ToString()),
-                                new List<DetalleVenta>()
-                                );
-                            lista.Add(venta);
+                            lista.Add(new VentaListadoDTO
+                            {
+                                IdVenta = Convert.ToInt32(reader["IdVenta"].ToString()),
+                                cliente = cliente,
+                                FechaVenta = FechaVenta,
+                                Total = Convert.ToDecimal(reader["Total"].ToString()),
+                            });
                         }
                     }
                 }
@@ -230,9 +227,9 @@ namespace CapaDatos
             return lista;
         }
 
-        public List<Venta> BuscarAdmin(string nombreCliente) 
+        public List<VentaListadoDTO> BuscarAdmin(string nombreCliente) 
         {
-            List<Venta> lista = new List<Venta>();
+            List<VentaListadoDTO> lista = new List<VentaListadoDTO>();
             using (SqlConnection cn = new SqlConnection(ConexionBD.cn))
             {
                 try
@@ -254,14 +251,13 @@ namespace CapaDatos
 
                             DateTime FechaVenta = Convert.ToDateTime(reader["FechaVenta"].ToString());
 
-                            Venta venta = new Venta(
-                                Convert.ToInt32(reader["IdVenta"].ToString()),
-                                cliente,
-                                FechaVenta,
-                                Convert.ToDecimal(reader["Total"].ToString()),
-                                new List<DetalleVenta>()
-                                );
-                            lista.Add(venta);
+                            lista.Add(new VentaListadoDTO
+                            {
+                                IdVenta = Convert.ToInt32(reader["IdVenta"].ToString()),
+                                cliente = cliente,
+                                FechaVenta = FechaVenta,
+                                Total = Convert.ToDecimal(reader["Total"].ToString()),
+                            });
                         }
                     }
                 }

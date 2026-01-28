@@ -1,4 +1,10 @@
-﻿var detalles = [];
+﻿$(document).ready(function () {
+    listarVentasHoy();
+    listarVentasMes();
+    listarVentasAdmin();
+});
+
+var detalles = [];
 
 function agregarProducto() {
     var idProducto = $("#idProducto").val();
@@ -50,3 +56,110 @@ function registrarVenta() {
         }
     });
 }
+
+function listarVentasHoy() {
+
+    $.ajax({
+        url: '/Venta/ListarVentasHoy',
+        type: 'GET',
+        success: function (ventas) {
+
+            console.log(ventas); 
+
+            let tbody = $("#tablaVentasHoy tbody");
+            tbody.empty();
+
+            ventas.forEach(v => {
+
+                let fila = `
+                    <tr>
+                        <td>${v.IdVenta}</td>
+                        <td>${v.cliente.Nombre}</td>
+                        <td>${formatearFecha(v.FechaVenta)}</td>
+                        <td>S/ ${v.Total.toFixed(2)}</td>
+                    </tr>
+                `;
+
+                tbody.append(fila);
+            });
+        },
+        error: function () {
+            alert("Error al listar ventas de hoy");
+        }
+    });
+}
+
+
+function listarVentasMes() {
+
+    $.ajax({
+        url: '/Venta/ListarVentasMes',
+        type: 'GET',
+        success: function (ventas) {
+
+            console.log(ventas);
+
+            let tbody = $("#tablaVentasMes tbody");
+            tbody.empty();
+
+            ventas.forEach(v => {
+
+                let fila = `
+                    <tr>
+                        <td>${v.IdVenta}</td>
+                        <td>${v.cliente.Nombre}</td>
+                        <td>${formatearFecha(v.FechaVenta)}</td>
+                        <td>S/ ${v.Total.toFixed(2)}</td>
+                    </tr>
+                `;
+
+                tbody.append(fila);
+            });
+        },
+        error: function () {
+            alert("Error al listar ventas de hoy");
+        }
+    });
+}
+
+function listarVentasAdmin() {
+
+    $.ajax({
+        url: '/Venta/ListarVentasAdmin',
+        type: 'GET',
+        success: function (ventas) {
+
+            console.log(ventas);
+
+            let tbody = $("#tablaVentasAdmin tbody");
+            tbody.empty();
+
+            ventas.forEach(v => {
+
+                let fila = `
+                    <tr>
+                        <td>${v.IdVenta}</td>
+                        <td>${v.cliente.Nombre}</td>
+                        <td>${formatearFecha(v.FechaVenta)}</td>
+                        <td>S/ ${v.Total.toFixed(2)}</td>
+                    </tr>
+                `;
+
+                tbody.append(fila);
+            });
+        },
+        error: function () {
+            alert("Error al listar ventas de hoy");
+        }
+    });
+}
+
+function formatearFecha(fechaNet) {
+    if (!fechaNet) return "";
+
+    var timestamp = parseInt(fechaNet.replace("/Date(", "").replace(")/", ""));
+    var fecha = new Date(timestamp);
+
+    return fecha.toLocaleDateString("es-PE");
+}
+

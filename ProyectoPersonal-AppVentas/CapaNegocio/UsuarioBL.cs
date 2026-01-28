@@ -27,19 +27,20 @@ namespace CapaNegocio
                 return usuarioDAL.actualizar(usuario);
         }
 
-        public int CambiarEstadoUsuario (Usuario usuario)
+        public int CambiarEstadoUsuario(Usuario usuario)
         {
             if (usuario == null)
-                throw new Exception("Categoría inválida");
+                throw new Exception("Usuario inválido");
 
             if (usuario.IdUsuario <= 0)
                 throw new Exception("ID inválido");
 
-            if (usuario.Activo)
+            if (usuario.Activo == false)
                 return usuarioDAL.desactivar(usuario.IdUsuario);
             else
                 return usuarioDAL.reactivar(usuario.IdUsuario);
         }
+
 
         public List<Usuario> ListarUsuario()
         {

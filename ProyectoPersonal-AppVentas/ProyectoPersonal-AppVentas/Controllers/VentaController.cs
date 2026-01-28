@@ -16,6 +16,12 @@ namespace ProyectoPersonal_AppVentas.Controllers
         // GET: Venta
         public ActionResult Index()
         {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult RegistroVentas()
+        {
             ViewBag.Clientes = new ClienteBL().ListarClientes();
             ViewBag.Productos = new ProductoBL().ListarProducto();
 
@@ -42,62 +48,25 @@ namespace ProyectoPersonal_AppVentas.Controllers
             return Json(new { resultado, mensaje });
         }
 
-
+        [HttpGet]
         public JsonResult ListarVentasHoy()
         {
-            bool resultado = true;
-            string mensaje = "";
-            List<Venta> lista = new List<Venta>();
-
-            try
-            {
-                lista = ventaBL.ListarVentasHoy();
-            }
-            catch (Exception ex)
-            {
-                resultado = false;
-                mensaje = ex.Message;
-            }
-
-            return Json(new { resultado, mensaje, data = lista }, JsonRequestBehavior.AllowGet);
+            var lista = ventaBL.ListarVentasHoy();
+            return Json(lista, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
         public JsonResult ListarVentasMes()
         {
-            bool resultado = true;
-            string mensaje = "";
-            List<Venta> lista = new List<Venta>();
-
-            try
-            {
-                lista = ventaBL.ListarVentasMes();
-            }
-            catch (Exception ex)
-            {
-                resultado = false;
-                mensaje = ex.Message;
-            }
-
-            return Json(new { resultado, mensaje, data = lista }, JsonRequestBehavior.AllowGet);
+            var lista = ventaBL.ListarVentasMes();
+            return Json(lista, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
         public JsonResult ListarVentasAdmin()
         {
-            bool resultado = true;
-            string mensaje = "";
-            List<Venta> lista = new List<Venta>();
-
-            try
-            {
-                lista = ventaBL.ListarVentasAdmin();
-            }
-            catch (Exception ex)
-            {
-                resultado = false;
-                mensaje = ex.Message;
-            }
-
-            return Json(new { resultado, mensaje, data = lista }, JsonRequestBehavior.AllowGet);
+            var lista = ventaBL.ListarVentasAdmin();
+            return Json(lista, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult TotalVentasHoy()
@@ -140,21 +109,8 @@ namespace ProyectoPersonal_AppVentas.Controllers
 
         public JsonResult BuscarVenta(string nombreCliente)
         {
-            bool resultado = true;
-            string mensaje = "";
-            List<Venta> lista = new List<Venta>();
-
-            try
-            {
-                lista = ventaBL.BuscarVentasAdmin(nombreCliente);
-            }
-            catch (Exception ex)
-            {
-                resultado = false;
-                mensaje = ex.Message;
-            }
-
-            return Json(new { resultado, mensaje, data = lista }, JsonRequestBehavior.AllowGet);
+            var lista = ventaBL.BuscarVentasAdmin(nombreCliente);
+            return Json(lista, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Detalle (int id)

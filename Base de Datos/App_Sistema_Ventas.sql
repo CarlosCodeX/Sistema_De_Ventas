@@ -248,17 +248,8 @@ BEGIN
     FROM Producto
 END
 
-GO
-CREATE PROC sp_ReactivarProducto
-@IDProducto INT
-AS
-BEGIN
-    UPDATE Producto
-    SET Activo = 1
-    WHERE IdProducto = @IDProducto
-END
-GO
 
+GO
 CREATE PROC sp_ProductoBajoStock
 AS
 BEGIN
@@ -380,13 +371,13 @@ BEGIN
 
     SELECT 
         IdVenta,
-        IdCliente,
+        c.Nombre AS Cliente, 
         FechaVenta,
         Total
-    FROM Venta
+    FROM Venta v
+    INNER JOIN Cliente c ON c.IdCliente = v.IdCliente
     WHERE CAST(FechaVenta AS DATE) = CAST(GETDATE() AS DATE)
 END
-
 
 GO
 CREATE PROC sp_TotalVentasHoy
@@ -409,10 +400,11 @@ BEGIN
 
     SELECT 
         IdVenta,
-        IdCliente,
+        c.Nombre AS Cliente, 
         FechaVenta,
         Total
-    FROM Venta
+    FROM Venta v
+    INNER JOIN Cliente c ON c.IdCliente = v.IdCliente
     WHERE MONTH(FechaVenta) = MONTH(GETDATE())
       AND YEAR(FechaVenta)  = YEAR(GETDATE())
 END
@@ -637,3 +629,4 @@ select * from Producto
 select * from Venta
 select * from DetalleVenta
 SELECT * FROM Producto
+

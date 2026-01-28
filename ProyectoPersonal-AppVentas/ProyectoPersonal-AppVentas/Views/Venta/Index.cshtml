@@ -3,47 +3,46 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Registrar Venta</h2>
+<h2>Listado de Venta</h2>
 
-<select id="idCliente">
-    <option value="">Seleccione cliente</option>
-    @foreach (var c in (List<CapaEntidad.Cliente>) ViewBag.Clientes)
-    {
-        <option value="@c.IdCliente">@c.Nombre</option>
-    }
-</select>
-
-<hr />
-
-<select id="idProducto">
-    <option value="">Seleccione producto</option>
-    @foreach (var p in (List<CapaEntidad.Producto>) ViewBag.Productos)
-    {
-        <option value="@p.IdProducto" data-precio="@p.Precio">
-            @p.Nombre - S/ @p.Precio
-        </option>
-    }
-</select>
-
-<input type="number" id="cantidad" min="1" placeholder="Cantidad" />
-
-<button onclick="agregarProducto()">Agregar</button>
-
-<table border="1" id="tablaDetalle">
+<table id="tablaVentasHoy">
     <thead>
         <tr>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Precio</th>
-            <th>Subtotal</th>
-            <th></th>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Total</th>
         </tr>
     </thead>
     <tbody></tbody>
 </table>
 
-<button onclick="registrarVenta()">Registrar Venta</button>
+<table id="tablaVentasMes">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
 
+<table id="tablaVentasAdmin">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script src="~/Scripts/jquery-3.7.1.min.js"></script>
 <script src="~/Scripts/venta.js"></script>
+
 
 

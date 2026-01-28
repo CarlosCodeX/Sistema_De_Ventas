@@ -1,28 +1,154 @@
 ﻿
+@model List<CapaEntidad.Usuario>
 @{
-    ViewBag.Title = "Registrar";
+    ViewBag.Title = "Usuarios";
 }
+<link href="~/Content/IndexUsuario.css" rel="stylesheet" />
 
-<h2>Registrar Usuario (Prueba)</h2>
+<!-- HEADER SUPERIOR -->
+<header class="header-top">
+    <div class="header-brand">
+        <div class="brand-content">
+            <div class="logo-header">
+                <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="25" cy="25" r="22" fill="#33FF51" />
+                    <path d="M 17 22 L 25 17 L 33 22 L 33 33 L 17 33 Z" fill="white" />
+                </svg>
+            </div>
+            <h1>Sistema A&M</h1>
+        </div>
+    </div>
+    <nav class="header-nav">
+        <a href="@Url.Action("InicioAdministrador", "Usuario")">Inicio</a>
+        <a href="@Url.Action("Index", "Categoria")">Mis Categorías</a>
+        <a href="@Url.Action("Index", "Producto")">Mis Productos</a>
+        <a href="@Url.Action("Index", "Venta")">Mis Ventas</a>
+        <a href="@Url.Action("Index", "Cliente")">Mis Clientes</a>
+        <a href="@Url.Action("Registrar", "Usuario")" class="active">Mis Trabajadores</a>
+        <a href="@Url.Action("CerrarSesion", "Usuario")" class="logout-link">Cerrar Sesión</a>
+    </nav>
+</header>
 
-<input type="hidden" id="idUsuario" value="0" />
+<main class="contenido-full">
+    <div class="header-contenido">
+        <div>
+            <h1>Usuarios del Sistema</h1>
+            <p class="subtitle">Gestiona los usuarios y sus permisos</p>
+        </div>
+        <button class="btn-agregar" onclick="abrirModal()">
+            <span class="btn-icon">+</span>
+            <span>Nuevo Usuario</span>
+        </button>
+    </div>
 
-<div>
-    <label>Nombre</label>
-    <input type="text" id="nombre" />
-</div>
+    <!-- TABLA DE USUARIOS -->
+    <section class="tabla-section">
+        <div class="tabla-container">
+            <table class="tabla-usuarios">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var usuario in Model)
+                    {
+                        <tr>
+                            <td><span class="badge-id">#@usuario.IdUsuario</span></td>
+                            <td class="usuario-col">
+                                <div class="usuario-info">
+                                    <div class="usuario-avatar">
+                                        @usuario.NombreUsuario.Substring(0, 1).ToUpper()
+                                    </div>
+                                    <span>@usuario.NombreUsuario</span>
+                                </div>
+                            </td>
+                            <td>
+                                @if (usuario.rol.IdRol == 1)
+                                {
+                                    <span class="badge badge-admin">@usuario.rol.NombreRol</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-empleado">@usuario.rol.NombreRol</span>
+                                }
+                            </td>
+                            <td>
+                                @if (usuario.Activo)
+                                {
+                                    <span class="badge badge-activo">Activo</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-inactivo">Inactivo</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="acciones-grupo">
+                                    <button class="btn-accion btn-editar" onclick="editar(@usuario.IdUsuario, '@usuario.NombreUsuario', '@usuario.Clave', @usuario.rol.IdRol)" title="Editar">
+                                        ✏️
+                                    </button>
+                                    <button class="btn-accion btn-estado" onclick="cambiarEstado(@usuario.IdUsuario, @(usuario.Activo.ToString().ToLower()))" title="Cambiar Estado">
+                                        🔄
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-<div>
-    <label>Clave</label>
-    <input type="password" id="clave" />
-</div>
+    <!-- MODAL REGISTRAR/EDITAR USUARIO -->
+    <div id="modalUsuario" class="modal">
+        <div class="modal-overlay" onclick="cerrarModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="tituloModal">Registrar Usuario</h3>
+                <button class="btn-close" onclick="cerrarModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="idUsuario" value="0" />
 
-<div>
-    <label>Rol ID</label>
-    <input type="number" id="idRol" />
-</div>
+                <div class="form-group">
+                    <label for="nombre">Nombre de Usuario</label>
+                    <input type="text" id="nombre" placeholder="Ej: jperez" />
+                </div>
 
-<button onclick="registrarUsuario()">Registrar</button>
+                <div class="form-row">
+                    <div class="form-group" id="grupoClave">
+                        <label for="clave">Contraseña</label>
+                        <input type="password" id="clave" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="idRol">Rol</label>
+                        <select id="idRol">
+                            <option disabled value="">--Seleccione un Rol--</option>
+                            <option value="1">Administrador</option>
+                            <option value="2">Empleado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="alert-info">
+                    <span class="alert-icon">ℹ️</span>
+                    <span>La contraseña debe tener al menos 6 caracteres</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="cerrarModal()">Cancelar</button>
+                <button class="btn-primary" onclick="registrarUsuario()">Guardar Usuario</button>
+            </div>
+        </div>
+    </div>
+
+</main>
 
 <script src="~/Scripts/jquery-3.7.1.min.js"></script>
 @section scripts {

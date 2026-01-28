@@ -48,6 +48,7 @@
     <Compile Include="DTO\ProductoBajoStockDTO.cs" />
     <Compile Include="DTO\ProductoMasVendidoDTO.cs" />
     <Compile Include="DTO\VentaDTO.cs" />
+    <Compile Include="DTO\VentaListadoDTO.cs" />
     <Compile Include="Producto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rol.cs" />
