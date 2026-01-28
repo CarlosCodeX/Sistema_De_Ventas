@@ -15,6 +15,11 @@ namespace ProyectoPersonal_AppVentas.Controllers
         // GET: Cliente
         public ActionResult Index()
         {
+            if (Session["Usuario"] == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
+
             var lista = clienteBL.ListarClientes();
             return View(lista);
         }

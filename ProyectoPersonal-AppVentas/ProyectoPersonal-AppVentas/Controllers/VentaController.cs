@@ -16,12 +16,22 @@ namespace ProyectoPersonal_AppVentas.Controllers
         // GET: Venta
         public ActionResult Index()
         {
+            if (Session["Usuario"] == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
+
             return View();
         }
 
         [HttpGet]
         public ActionResult RegistroVentas()
         {
+            if (Session["Usuario"] == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
+
             ViewBag.Clientes = new ClienteBL().ListarClientes();
             ViewBag.Productos = new ProductoBL().ListarProducto();
 

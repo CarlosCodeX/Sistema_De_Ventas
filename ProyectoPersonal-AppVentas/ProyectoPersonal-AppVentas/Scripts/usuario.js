@@ -97,12 +97,13 @@ function cambiarEstado(id, activo) {
 function editar(idUsuario, nombre, idRol) {
     $("#idUsuario").val(idUsuario);
     $("#nombre").val(nombre);
-    $("#clave").val("").prop("required", false); // NO usar clave al editar
+    $("#clave").val("").prop("required", false); 
     $("#idRol").val(String(idRol)).change();
 
-    $("#grupoClave").hide(); // 🔥 clave fuera al editar
+    $("#grupoClave").hide(); 
     $("#tituloModal").text("Editar Usuario");
 
     $("#modalUsuario").show();
 }
+
 

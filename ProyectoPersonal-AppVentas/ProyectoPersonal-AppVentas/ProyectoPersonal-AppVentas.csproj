@@ -107,6 +107,7 @@
     <Content Include="Content\IndexCategoria.css" />
     <Content Include="Content\IndexCliente.css" />
     <Content Include="Content\IndexProducto.css" />
+    <Content Include="Content\IndexRegistroVentas.css" />
     <Content Include="Content\IndexUsuario.css" />
     <Content Include="Content\IndexVenta.css" />
     <Content Include="Content\InicioAdministrador.css" />
@@ -181,6 +182,7 @@
     <Content Include="Views\Usuario\Registrar.cshtml" />
     <Content Include="Views\Usuario\InicioAdministrador.cshtml" />
     <Content Include="Views\Venta\RegistroVentas.cshtml" />
+    <Content Include="Views\Producto\ProductoEmpleado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

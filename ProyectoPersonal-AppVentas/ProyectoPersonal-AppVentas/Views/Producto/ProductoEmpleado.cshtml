@@ -15,12 +15,8 @@
         </div>
     </div>
     <nav class="header-nav">
-        <a href="@Url.Action("InicioAdministrador", "Usuario")">Inicio</a>
-        <a href="@Url.Action("Index", "Categoria")">Mis Categorías</a>
-        <a href="@Url.Action("Index", "Producto")" class="active">Mis Productos</a>
-        <a href="@Url.Action("Index", "Venta")">Mis Ventas</a>
-        <a href="@Url.Action("Index", "Cliente")">Mis Clientes</a>
-        <a href="@Url.Action("Registrar", "Usuario")">Mis Trabajadores</a>
+        <a href="@Url.Action("ProductoEmpleado", "Producto")" class="active">Revisar Productos</a>
+        <a href="@Url.Action("RegistroVentas", "Venta")">Registrar Venta</a>
         <a href="@Url.Action("CerrarSesion", "Usuario")" class="logout-link">Cerrar Sesión</a>
     </nav>
 </header>
@@ -29,12 +25,8 @@
     <div class="header-contenido">
         <div>
             <h1>Productos</h1>
-            <p class="subtitle">Gestiona el catálogo de productos</p>
+            <p class="subtitle">Revisa el catálogo de productos</p>
         </div>
-        <button class="btn-agregar" onclick="abrirModal()">
-            <span class="btn-icon">+</span>
-            <span>Nuevo Producto</span>
-        </button>
     </div>
 
     <!-- VISTA DE CARDS -->
@@ -91,60 +83,9 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="card-footer">
-                    <button class="btn-card btn-editar" onclick="editar(@producto.IdProducto, '@producto.Nombre', '@producto.categoria.IdCategoria', @producto.Stock, @producto.Precio)">
-                        <span>✏️</span>
-                        Editar
-                    </button>
-                </div>
             </div>
         }
     </section>
-
-    <!-- MODAL -->
-    <div id="modalProducto" class="modal">
-        <div class="modal-overlay" onclick="cerrarModal()"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Nuevo Producto</h3>
-                <button class="btn-close" onclick="cerrarModal()">✕</button>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" id="idProducto" value="0" />
-
-                <div class="form-group">
-                    <label for="Nombre">Nombre del Producto</label>
-                    <input type="text" id="Nombre" placeholder="Ej: Coca Cola 500ml" />
-                </div>
-
-                <div class="form-group">
-                    <label for="idCategoria">Categoría</label>
-                    <select id="idCategoria">
-                        <option value="">--Seleccione una categoría--</option>
-                        @foreach (var c in (List<CapaEntidad.Categoria>)ViewBag.Categorias)
-                        {
-                            <option value="@c.IdCategoria">@c.Nombre</option>
-                        }
-                    </select>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="stock">Stock</label>
-                        <input type="number" id="stock" placeholder="0" min="0" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="precio">Precio (S/.)</label>
-                        <input type="number" id="precio" placeholder="0.00" step="0.01" min="0" />
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-secondary" onclick="cerrarModal()">Cancelar</button>
-                <button class="btn-primary" onclick="guardar()">Guardar Producto</button>
-            </div>
         </div>
     </div>
 </main>

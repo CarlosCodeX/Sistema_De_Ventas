@@ -2,48 +2,135 @@
 @{
     ViewBag.Title = "RegistroVentas";
 }
+<link href="~/Content/IndexRegistroVentas.css" rel="stylesheet" />
 
-<h2>RegistroVentas</h2>
+<!-- HEADER SUPERIOR -->
+<header class="header-top">
+    <div class="header-brand">
+        <div class="brand-content">
+            <div class="logo-header">
+                <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="25" cy="25" r="22" fill="#33FF51" />
+                    <path d="M 17 22 L 25 17 L 33 22 L 33 33 L 17 33 Z" fill="white" />
+                </svg>
+            </div>
+            <h1>Sistema A&M</h1>
+        </div>
+    </div>
+    <nav class="header-nav">
+        <a href="@Url.Action("ProductoEmpleado", "Producto")">Revisar Productos</a>
+        <a href="@Url.Action("RegistroVentas", "Venta")" class="active">Registrar Venta</a>
+        <a href="@Url.Action("CerrarSesion", "Usuario")" class="logout-link">Cerrar Sesión</a>
+    </nav>
+</header>
 
-<select id="idCliente">
-    <option value="">Seleccione cliente</option>
-    @foreach (var c in (List<CapaEntidad.Cliente>)ViewBag.Clientes)
-    {
-        <option value="@c.IdCliente">@c.Nombre</option>
-    }
-</select>
+<main class="contenido-full">
+    <div class="header-contenido">
+        <div>
+            <h1>Registrar Nueva Venta</h1>
+            @if (Session["Usuario"] != null)
+            {
+                var usuario = (CapaEntidad.Usuario)Session["Usuario"];
+                <p class="subtitle">Registra una venta <strong class="user-name">@usuario.NombreUsuario</strong></p>
+            }
+            else
+            {
+                <p class="subtitle">Completa los datos para registrar la venta</p>
+            }
+        </div>
+    </div>
 
-<hr />
+    <div class="venta-container">
 
-<select id="idProducto">
-    <option value="">Seleccione producto</option>
-    @foreach (var p in (List<CapaEntidad.Producto>)ViewBag.Productos)
-    {
-        <option value="@p.IdProducto" data-precio="@p.Precio">
-            @p.Nombre - S/ @p.Precio
-        </option>
-    }
-</select>
+        <div class="seccion-card">
+            <div class="card-header-seccion">
+                <span class="seccion-icon">👤</span>
+                <h3>Seleccionar Cliente</h3>
+            </div>
+            <div class="card-body-seccion">
+                <div class="form-group-venta">
+                    <label for="idCliente">Cliente</label>
+                    <select id="idCliente">
+                        <option value="">Seleccione cliente</option>
+                        @foreach (var c in (List<CapaEntidad.Cliente>)ViewBag.Clientes)
+                        {
+                            <option value="@c.IdCliente">@c.Nombre</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
 
-<input type="number" id="cantidad" min="1" placeholder="Cantidad" />
+        <div class="seccion-card">
+            <div class="card-header-seccion">
+                <span class="seccion-icon">📦</span>
+                <h3>Agregar Productos</h3>
+            </div>
+            <div class="card-body-seccion">
+                <div class="productos-row">
+                    <div class="form-group-venta">
+                        <label for="idProducto">Producto</label>
+                        <select id="idProducto">
+                            <option value="">Seleccione producto</option>
+                            @foreach (var p in (List<CapaEntidad.Producto>)ViewBag.Productos)
+                            {
+                                <option value="@p.IdProducto" data-precio="@p.Precio">
+                                    @p.Nombre - S/ @p.Precio
+                                </option>
+                            }
+                        </select>
+                    </div>
 
-<button onclick="agregarProducto()">Agregar</button>
+                    <div class="form-group-venta">
+                        <label for="cantidad">Cantidad</label>
+                        <input type="number" id="cantidad" min="1" placeholder="0" />
+                    </div>
 
-<table border="1" id="tablaDetalle">
-    <thead>
-        <tr>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Precio</th>
-            <th>Subtotal</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+                    <div class="form-group-venta btn-group-venta">
+                        <button class="btn-agregar-prod" onclick="agregarProducto()">
+                            <span>+</span>
+                            Agregar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="seccion-card seccion-detalle">
+            <div class="card-header-seccion">
+                <span class="seccion-icon">🛒</span>
+                <h3>Detalle de la Venta</h3>
+            </div>
+            <div class="card-body-seccion">
+                <div class="tabla-detalle-container">
+                    <table border="1" id="tablaDetalle" class="tabla-detalle">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Subtotal</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
 
-<button onclick="registrarVenta()">Registrar Venta</button>
+                <div class="venta-footer">
+                    <div class="total-venta">
+                        <span class="total-label">TOTAL:</span>
+                        <span class="total-valor" id="totalVenta">S/. 0.00</span>
+                    </div>
+                    <button class="btn-registrar" onclick="registrarVenta()">
+                        <span>💰</span>
+                        Registrar Venta
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 
 <script src="~/Scripts/jquery-3.7.1.min.js"></script>
 <script src="~/Scripts/registroventa.js"></script>

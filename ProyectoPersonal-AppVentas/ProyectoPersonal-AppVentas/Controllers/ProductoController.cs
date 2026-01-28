@@ -16,6 +16,25 @@ namespace ProyectoPersonal_AppVentas.Controllers
         // GET: Producto
         public ActionResult Index()
         {
+            if (Session["Usuario"] == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
+
+            ViewBag.Categorias = new CategoriaBL().ListarCategoria();
+
+            var lista = productoBL.ListarProducto();
+            return View(lista);
+        }
+
+        [HttpGet]
+        public ActionResult ProductoEmpleado()
+        {
+            if (Session["Usuario"] == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
+
             ViewBag.Categorias = new CategoriaBL().ListarCategoria();
 
             var lista = productoBL.ListarProducto();

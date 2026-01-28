@@ -15,6 +15,11 @@ namespace ProyectoPersonal_AppVentas.Controllers
         // GET: Categoria
         public ActionResult Index()
         {
+            if (Session["Usuario"] == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
+
             var lista = categoriaBL.ListarCategoria();
             return View(lista);
         }

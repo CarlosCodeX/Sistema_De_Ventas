@@ -88,7 +88,7 @@ namespace ProyectoPersonal_AppVentas.Controllers
 
             if (usuario.rol.NombreRol == "Trabajador")
             {
-                return RedirectToAction("Index", "Venta");
+                return RedirectToAction("RegistroVentas", "Venta");
             }
 
             ViewBag.Error = "Rol no autorizado";
@@ -99,6 +99,11 @@ namespace ProyectoPersonal_AppVentas.Controllers
         [HttpGet]
         public ActionResult Registrar()
         {
+            if (Session["Usuario"] == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
+
             ViewBag.Usuarios = new UsuarioBL().ListarUsuario();
             var lista = usuarioBL.ListarUsuario();
 
@@ -108,9 +113,21 @@ namespace ProyectoPersonal_AppVentas.Controllers
         [HttpGet]
         public ActionResult InicioAdministrador()
         {
+            if (Session["Usuario"] == null)
+            {
+                return RedirectToAction("Login", "Usuario");
+            }
+
             return View();
         }
 
+        public ActionResult CerrarSesion()
+        {
+            Session.Clear();
+            Session.Abandon();
+
+            return RedirectToAction("Login", "Usuario");
+        }
 
     }
 }

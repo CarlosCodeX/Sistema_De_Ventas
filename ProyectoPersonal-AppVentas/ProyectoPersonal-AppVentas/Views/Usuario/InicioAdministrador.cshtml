@@ -12,7 +12,7 @@
                     <path d="M 17 22 L 25 17 L 33 22 L 33 33 L 17 33 Z" fill="white" />
                 </svg>
             </div>
-            <h2>Sistema A&M</h2>
+            <h2>Sistema De Ventas</h2>
         </div>
         <nav class="menu-nav">
             <a href="@Url.Action("InicioAdministrador", "Usuario")" class="menu-item active">
@@ -35,7 +35,7 @@
             </a>
         </nav>
         <div class="menu-footer">
-            <a href="#" class="logout-btn">
+            <a href="@Url.Action("CerrarSesion", "Usuario")" class="logout-btn">
                 <span>Cerrar Sesión</span>
             </a>
         </div>
@@ -49,13 +49,6 @@
                     var usuario = (CapaEntidad.Usuario)Session["Usuario"];
                     <p class="subtitle">Bienvenido <strong class="user-name">@usuario.NombreUsuario</strong>, que planes para hoy?</p>
                 }
-                else
-                {
-                    <p class="subtitle">Bienvenido al panel de administración</p>
-                }
-            </div>
-            <div class="user-info">
-                <span class="date-info">Viernes, 23 Enero 2026</span>
             </div>
         </div>
 
