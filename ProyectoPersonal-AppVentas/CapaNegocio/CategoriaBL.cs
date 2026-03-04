@@ -42,11 +42,15 @@ namespace CapaNegocio
                 return categoriaDAL.Reactivar(categoria.IdCategoria);
         }
 
-        public List<Categoria> ListarCategoria()
+        public List<Categoria> ListarCategoriaConFiltro()
         {
-            return categoriaDAL.listar();
+            return categoriaDAL.listarConFiltro();
         }
 
+        public List<Categoria> ListarCategoriaSinFiltro()
+        {
+            return categoriaDAL.listarSinFiltro();
+        }
 
     }
 }

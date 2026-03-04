@@ -47,6 +47,11 @@ namespace CapaNegocio
             return productoDAL.listar();
         }
 
+        public List<Producto> ListarProductoAdmin()
+        {
+            return productoDAL.listarAdmin();
+        }
+
         public List<Producto> buscarProducto(string nombre)
         {
             return productoDAL.buscar(nombre);

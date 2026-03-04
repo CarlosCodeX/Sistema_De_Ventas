@@ -111,7 +111,7 @@ namespace CapaDatos
             return f;
         }
 
-        public List<Categoria> listar()
+        public List<Categoria> listarSinFiltro()
         {
             List<Categoria> lista = new List<Categoria>();
             using (SqlConnection cn = new SqlConnection(ConexionBD.cn))
@@ -121,7 +121,7 @@ namespace CapaDatos
                     SqlCommand cmd = new SqlCommand();
                     cmd.Connection = cn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "sp_ListarCategoria";
+                    cmd.CommandText = "sp_ListarCategoriaSinFiltro";
                     cn.Open();
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -142,6 +142,42 @@ namespace CapaDatos
                 catch(Exception ex)
                 {
                     throw new Exception (ex.Message);
+                }
+            }
+            return lista;
+        }
+
+        public List<Categoria> listarConFiltro()
+        {
+            List<Categoria> lista = new List<Categoria>();
+            using (SqlConnection cn = new SqlConnection(ConexionBD.cn))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = cn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "sp_ListarCategoriaConFiltro";
+                    cn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Categoria c = new Categoria(
+                            Convert.ToInt32(reader["IdCategoria"]),
+                            reader["Nombre"].ToString(),
+                            reader["Descripcion"].ToString(),
+                            Convert.ToBoolean(reader["Activo"])
+                            );
+                            lista.Add(c);
+                        }
+
+                    }
+                    cn.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
                 }
             }
             return lista;

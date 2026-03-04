@@ -21,9 +21,9 @@ namespace ProyectoPersonal_AppVentas.Controllers
                 return RedirectToAction("Login", "Usuario");
             }
 
-            ViewBag.Categorias = new CategoriaBL().ListarCategoria();
+            ViewBag.Categorias = new CategoriaBL().ListarCategoriaConFiltro();
 
-            var lista = productoBL.ListarProducto();
+            var lista = productoBL.ListarProductoAdmin();
             return View(lista);
         }
 
@@ -35,7 +35,7 @@ namespace ProyectoPersonal_AppVentas.Controllers
                 return RedirectToAction("Login", "Usuario");
             }
 
-            ViewBag.Categorias = new CategoriaBL().ListarCategoria();
+            ViewBag.Categorias = new CategoriaBL().ListarCategoriaConFiltro();
 
             var lista = productoBL.ListarProducto();
             return View(lista);

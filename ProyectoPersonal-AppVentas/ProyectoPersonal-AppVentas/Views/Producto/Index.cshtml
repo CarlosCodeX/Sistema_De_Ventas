@@ -97,6 +97,10 @@
                         <span>✏️</span>
                         Editar
                     </button>
+                    <button class="btn-card btn-estado" onclick="cambiarEstado(@producto.IdProducto, @(producto.Activo.ToString().ToLower()))" title="Cambiar Estado">
+                        <span>🔄</span>
+                        Estado
+                    </button>
                 </div>
             </div>
         }

@@ -74,7 +74,7 @@ namespace ProyectoPersonal_AppVentas.Controllers
             }
             if (!usuario.Activo)
             {
-                ViewBag.Error = "Usuario desactivado";
+                ViewBag.Error = "Su cuenta ha sido desactivada";
                 return View("Login");
             }
 

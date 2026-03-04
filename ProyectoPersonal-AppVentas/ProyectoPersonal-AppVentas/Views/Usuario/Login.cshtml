@@ -22,6 +22,20 @@
     </div>
 
     <form class="formulario" action="@Url.Action("Login", "Usuario")" method="post">
+        @if (ViewBag.Error != null)
+        {
+            <div class="toast-overlay" id="toastOverlay">
+                <div class="toast-error">
+                    <div class="toast-icon">✕</div>
+                    <div class="toast-content">
+                        <span class="toast-title">Error</span>
+                        <span class="toast-message">@ViewBag.Error</span>
+                    </div>
+                    <button class="toast-close" onclick="document.getElementById('toastOverlay').style.display='none'">✕</button>
+                </div>
+            </div>
+        }
+
         <div class="form-content">
             <h2 class="form-title">Bienvenido</h2>
 

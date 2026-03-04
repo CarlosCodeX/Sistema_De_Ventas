@@ -28,6 +28,29 @@
     });
 }
 
+function cambiarEstado(id, activo) {
+
+    if (!confirm("¿Seguro de cambiar el estado?"))
+        return;
+
+    $.ajax({
+        url: "/Producto/CambiarEstado",
+        type: 'POST',
+        data: { id: id, activo: activo },
+        success: function (r) {
+            if (r.resultado) {
+                location.reload();
+            } else {
+                alert(r.mensaje);
+            }
+        },
+        error: function () {
+            alert("Error en el servidor");
+        }
+    });
+}
+
+
 function abrirModal() {
     document.getElementById("idProducto").value = 0;
     document.getElementById("Nombre").value = "";

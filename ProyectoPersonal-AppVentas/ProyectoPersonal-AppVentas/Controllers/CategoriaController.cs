@@ -20,7 +20,7 @@ namespace ProyectoPersonal_AppVentas.Controllers
                 return RedirectToAction("Login", "Usuario");
             }
 
-            var lista = categoriaBL.ListarCategoria();
+            var lista = categoriaBL.ListarCategoriaSinFiltro();
             return View(lista);
         }
 
